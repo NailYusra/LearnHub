@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_hub/screens/register_screen.dart';
 import 'login_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -65,7 +64,7 @@ class WelcomeScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        minimumSize: const Size(140, 50), // Tambahkan ini
+                        minimumSize: const Size(160, 50), // Tambahkan ini
                       ),
                       child: const Text(
                         "Login",
