@@ -134,10 +134,6 @@ class ProdiController extends Controller
             }
         }
 
-        // Siapkan data yang akan diupdate (hanya jika field disediakan)
-        //$oldDataPlain['faculty_id'] = $data['faculty_id'];
-        //$oldDataPlain['nama'] = $data['nama'];
-
         // Pastikan user_id tetap disimpan
         $oldDataPlain['prodi_id'] = $prodi_id;
 
@@ -148,5 +144,52 @@ class ProdiController extends Controller
             'message' => 'prodi berhasil diupdate',
             'data' => $oldDataPlain,
         ]);
+    }
+
+    public function destroy(string $prodi_id) {
+        $oldData = $this->prodiService->getDocumentById('prodi', $prodi_id);
+
+        if (!$oldData) {
+            return response()->json(['message' => 'prodi id tidak ditemukan'], 404);
+        }
+
+        $courseService = new FirestoreService('course', app(\App\Services\FirebaseTokenService::class));
+        $courses = $courseService->getDocuments();
+
+        // Filter dokumen yang memiliki prodi_id yang cocok, lalu hapus
+        foreach ($courses as $item) {
+            if (isset($item['prodi_id']) && $item['prodi_id'] === $prodi_id) {
+                app(\App\Http\Controllers\Api\CourseController::class)->destroy($item['id']);
+            }
+        }
+
+        $userService = new FirestoreService('users', app(\App\Services\FirebaseTokenService::class));
+        $users = $userService->getDocuments();
+
+        //filter dokum user yang punya prodi_id, lalu ganti prodi_id dengan null
+        foreach ($users as $item) {
+            if (isset($item['prodi_id']) && $item['prodi_id'] === $prodi_id && isset($item['id'])) {
+                // Ambil semua isi dokumen user
+                $fullDoc = $userService->getDocumentById('users', $item['id']);
+                
+                // Ubah ke format flat array
+                $plain = [];
+                foreach ($fullDoc as $key => $val) {
+                    $plain[$key] = $val[array_key_first($val)] ?? null;
+                }
+
+                // Set prodi_id jadi null
+                $plain['prodi_id'] = null;
+
+                // Kirim ulang seluruh isi dokumen (overwrite semua field, tapi aman)
+                $userService->updateDocument($item['id'], $plain);
+            }
+        }
+
+
+        $this->prodiService->deleteDocument($prodi_id);
+        return response()->json([
+            'message' => 'prodi berhasil dihapus'
+        ], 200);
     }
 }

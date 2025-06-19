@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\ProdiController;
 Route::post('/prodis', [ProdiController::class, 'store']);
 Route::get('/prodis', [ProdiController::class, 'index']);
 Route::put('/prodis/{prodi_id}', [ProdiController::class, 'update']);
+Route::delete('/prodis/{prodi_id}', [ProdiController::class, 'destroy']);
 
 Route::post('/course', [CourseController::class, 'store']);
 Route::get('/course', [CourseController::class, 'index']);
