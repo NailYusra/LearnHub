@@ -88,36 +88,39 @@
                 <div class="col-lg-5 col-md-12 mb-3">
         <div class="category-filter text-center">
                 <button class="btn btn-outline-primary" data-category="all">All Courses</button>
-                <button class="btn btn-outline-primary" data-category="web-design">Web Design</button>
-                <button class="btn btn-outline-primary" data-category="graphic-design">Graphic Design</button>
-                <button class="btn btn-outline-primary" data-category="marketing">Marketing</button>
-                <button class="btn btn-outline-primary" data-category="programming">Programming</button>
+                <button class="btn btn-outline-primary" data-category="FIF">FIF</button>
+                <button class="btn btn-outline-primary" data-category="FRI">FRI</button>
+                <button class="btn btn-outline-primary" data-category="FIK">FIK</button>
+                <button class="btn btn-outline-primary" data-category="FTE">FTE</button>
             </div>
         </div>
             
             <div class="row g-4">
-                <!-- Logika Matematika -->
-                <a href="{{route('team')}}" class="col-lg-3 col-md-6 category-item" data-category="fif">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <h5 class="category-title">Logika Matematika</h5>
-                            
-                        </div>
-                    <p class="category-faculty">FIF</p>
-                    <p class="category-footer">Lecturers</p>
-                    </div>
-                </a>
-                <!-- Kalkulus -->
-                <a href="{{route('team')}}" class="col-lg-3 col-md-6 category-item" data-category="fif">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <h5 class="category-title">Kalkulus</h5>
-                          
-                        </div>
-                    <p class="category-faculty">FIF</p>
-                    <p class="category-footer">Lecturers</p>
-                    </div>
-                </a>
+                <?php
+                    $api_url = 'http://localhost:8080/api/course/getAll';
+
+                    // Read JSON file
+                    $json_data = file_get_contents($api_url);
+
+                    // Decode JSON data into PHP array
+                    $response_data = json_decode($json_data);
+
+                    // All user data exists in 'data' object
+                    $course_data = $response_data;
+
+                    // Traverse array and display user data
+                    foreach ($course_data as $course) {
+                        echo "<a href='/team/". $course->id . "' class='col-lg-3 col-md-6 category-item' data-category='" . $course->nama_fakultas . "'>";
+                        echo    '<div class="category-card">';
+                        echo    '<div class="category-header">';
+                        echo            '<h5 class="category-title">' . $course->nama . '</h5>';
+                        echo        '</div>';
+                        echo    '<p class="category-faculty">'. $course->nama_fakultas .'</p>';
+                        echo    '<p class="category-faculty">'. $course->nama_prodi .'</p>';
+                        echo    '</div>';
+                        echo'</a>';
+                    }
+                ?>
             </div>
         </div>
     </div>

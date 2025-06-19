@@ -18,7 +18,7 @@ Route::get('/contact', function () {
 })->name('contact');
 
 // Courses page
-Route::get('/courses', function () {
+Route::get('/courses/', function () {
     return view('courses');
 })->name('courses');
 
@@ -28,6 +28,9 @@ Route::get('/forum', function () {
 })->name('forum');
 
 // Team page
+Route::get('/team/{course_id?}', function () {
+    return view('team');
+})->name('team');
 Route::get('/team', function () {
     return view('team');
 })->name('team');
