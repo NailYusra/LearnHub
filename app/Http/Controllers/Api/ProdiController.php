@@ -186,7 +186,6 @@ class ProdiController extends Controller
             }
         }
 
-
         $this->prodiService->deleteDocument($prodi_id);
         return response()->json([
             'message' => 'prodi berhasil dihapus'

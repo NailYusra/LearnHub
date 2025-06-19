@@ -32,7 +32,7 @@ use App\Http\Controllers\Api\FacultyController;
 Route::get('/faculties', [FacultyController::class, 'index']);
 Route::post('/faculties', [FacultyController::class, 'store']);
 Route::put('/faculties/{faculty_id}', [FacultyController::class, 'update']);
-
+Route::delete('/faculties/{faculty_id}', [FacultyController::class, 'destroy']);
 
 use App\Http\Controllers\Api\ProdiController;
 

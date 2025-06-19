@@ -118,4 +118,27 @@ class FacultyController extends Controller
             'data' => $oldDataPlain,
         ]);
     }
+
+    public function destroy(string $faculty_id) {
+        $oldData = $this->facultyService->getDocumentById('faculties', $faculty_id);
+
+        if (!$oldData) {
+            return response()->json(['message' => 'faculty id tidak ditemukan'], 404);
+        }
+
+        $prodiService = new FirestoreService('prodi', app(\App\Services\FirebaseTokenService::class));
+        $prodi = $prodiService->getDocuments();
+
+        // Filter dokumen yang memiliki prodi_id yang cocok, lalu hapus
+        foreach ($prodi as $item) {
+            if (isset($item['faculty_id']) && $item['faculty_id'] === $faculty_id) {
+                app(\App\Http\Controllers\Api\ProdiController::class)->destroy($item['id']);
+            }
+        }
+
+        $this->facultyService->deleteDocument($faculty_id);
+        return response()->json([
+            'message' => 'faculty berhasil dihapus'
+        ], 200);
+    }
 }
