@@ -116,4 +116,63 @@ class TutorController extends Controller
             'data' => $oldDataPlain,
         ]);
     }
+
+    public function destroy(string $tutor_id) {
+        $oldData = $this->tutorServive->getDocumentById('tutor', $tutor_id);
+
+        if (!$oldData) {
+            return response()->json(['message' => 'tutor id tidak ditemukan'], 404);
+        }
+
+        $tutorCourseService = new FirestoreService('tutorCourse', app(\App\Services\FirebaseTokenService::class));
+        $tutorCourses = $tutorCourseService->getDocuments();
+
+        // Filter dokumen yang memiliki tutor_id yang cocok, hapus tutor course
+        foreach ($tutorCourses as $item) {
+            if (isset($item['tutor_id']) && $item['tutor_id'] === $tutor_id) {
+                app(\App\Http\Controllers\Api\TutorCourseController::class)->destroy($item['id']);
+            }
+        }
+
+        $reviewService = new FirestoreService('reviews', app(\App\Services\FirebaseTokenService::class));
+        $reviews = $reviewService->getDocuments();
+
+        // Filter dokumen yang memiliki tutor_id yang cocok, hapus chat
+        foreach ($reviews as $item) {
+            if (isset($item['tutor_id']) && $item['tutor_id'] === $tutor_id) {
+                app(\App\Http\Controllers\Api\ReviewController::class)->destroy($item['id']);
+            }
+        }
+
+        $chatService = new FirestoreService('chats', app(\App\Services\FirebaseTokenService::class));
+        $chats = $chatService->getDocuments();
+
+        // Filter dokumen yang memiliki tutor_id yang cocok, hapus review
+        foreach ($chats as $item) {
+            if (isset($item['tutor_id']) && $item['tutor_id'] === $tutor_id) {
+                app(\App\Http\Controllers\Api\ChatController::class)->destroy($item['id']);
+            }
+        }
+
+        // hapus sertifikat, iyah aneh emang
+        $kumpulanCertificateService = new FirestoreService('kumpulanCertificates', app(\App\Services\FirebaseTokenService::class));
+        $kumpulanCertificate = $kumpulanCertificateService->getDocuments();
+        $CertificateService = new FirestoreService('certificates', app(\App\Services\FirebaseTokenService::class));
+        $Certificate = $CertificateService->getDocuments();
+        // Filter dokumen yang memiliki certificate_id yang cocok
+        foreach ($kumpulanCertificate as $item) {
+            if (isset($item['tutor_id']) && $item['tutor_id'] === $tutor_id) {
+                foreach ($Certificate as $item_1) {
+                    if (isset($item_1['certificate_id']) && $item_1['certificate_id'] === $item['certificate_id']) {
+                        app(\App\Http\Controllers\Api\CertificateController::class)->destroy($item_1['id']);
+                    }
+                }
+            }
+        }
+
+        $this->tutorServive->deleteDocument($tutor_id);
+        return response()->json([
+            'message' => 'tutor berhasil dihapus'
+        ], 200);
+    }
 }
