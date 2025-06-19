@@ -55,7 +55,7 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
                 <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
-                <a href="{{ route('courses') }}" class="nav-item nav-link">Courses</a>
+                <a href="{{ route('team') }}" class="nav-item nav-link">Courses</a>
                 <a href="{{ route('forum') }}" class="nav-item nav-link">Forum</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="dropdown-toggle nav-link active" data-bs-toggle="dropdown">Pages</a>
@@ -79,12 +79,11 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Our Tutor</h1>
+                    <h1 class="display-3 text-white animated slideInDown">Our Courses</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
                             <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">Team</li>
                         </ol>
                     </nav>
                 </div>

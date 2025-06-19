@@ -291,6 +291,16 @@
         .border-primary {
             border-color: var(--primary) !important;
         }
+        /* baru tambahan */
+        .forum-card {
+            background-color: #fff;
+        }
+
+        .comment {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body> 
@@ -308,7 +318,7 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
                 <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
-                <a href="{{ route('courses') }}" class="nav-item nav-link">Courses</a>
+                <a href="{{ route('team') }}" class="nav-item nav-link">Courses</a>
                 <a href="{{ route('forum') }}" class="nav-item nav-link active">Forum</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">Pages</a>
@@ -326,14 +336,14 @@
     <!-- Navbar End -->
 
 
-    <!-- Forum Header -->
-    <div class="forum-header">
-        <div class="container">
-            <h1>Daftar Forum</h1>
-        </div>
+   <!-- Forum Header -->
+<div class="forum-header bg-light py-3 mb-4">
+    <div class="container">
+        <h1 class="text-primary">Daftar Forum</h1>
     </div>
+</div>
 
-    <!-- Forum Content -->
+<!-- Forum Content -->
 <div class="content-wrapper">
     <div class="container py-4">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -342,86 +352,49 @@
         </div>
 
         <!-- Forum Card 1 -->
-        <div class="forum-card" onclick="toggleComments('comments-1')">
-            <h5>Diskusi Algoritma</h5>
-            <p>Mari bahas algoritma sorting terbaik!</p>
-            <div class="author">
-                <i class="fas fa-user"></i>
-                <span>Oleh: John Doe</span>
+        <div class="forum-card border rounded p-4 mb-4 shadow-sm">
+            <h5 class="text-dark">Diskusi Algoritma</h5>
+            <p class="text-muted">Bagusan QuickSort, MergeSort, atau BubbleSort?</p>
+            <div class="author text-secondary mb-3">
+                <i class="fas fa-user me-1"></i> Oleh: John Doe
+            </div>
+
+            <!-- Komentar Dummy -->
+            <div class="comments border-top pt-3">
+                <h6 class="text-primary">Jawaban / Komentar</h6>
+
+                <!-- Komentar 1 -->
+                <div class="comment border-bottom pb-2 mb-2">
+                    <p><strong>Alice:</strong> Saya rasa QuickSort sangat efisien untuk kebanyakan kasus.</p>
+                    <div class="d-flex gap-3">
+                        <span><i class="fas fa-thumbs-up text-success"></i> 10</span>
+                        <span><i class="fas fa-thumbs-down text-danger"></i> 2</span>
+                    </div>
+                </div>
+
+                <!-- Komentar 2 -->
+                <div class="comment border-bottom pb-2 mb-2">
+                    <p><strong>Bob:</strong> MergeSort lebih konsisten secara waktu eksekusi.</p>
+                    <div class="d-flex gap-3">
+                        <span><i class="fas fa-thumbs-up text-success"></i> 7</span>
+                        <span><i class="fas fa-thumbs-down text-danger"></i> 1</span>
+                    </div>
+                </div>
+
+                <!-- Komentar 3 -->
+                <div class="comment">
+                    <p><strong>Charlie:</strong> BubbleSort tidak disarankan, kecuali untuk pendidikan 😄</p>
+                    <div class="d-flex gap-3">
+                        <span><i class="fas fa-thumbs-up text-success"></i> 5</span>
+                        <span><i class="fas fa-thumbs-down text-danger"></i> 0</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Komentar Dummy -->
-        <div id="comments-1" class="comment-section" style="display: none; margin-left: 20px; margin-top: 15px;">
-            <h6>Komentar:</h6>
-            <div class="comment">
-                <strong>Ana:</strong> Menurutku quick sort paling efisien.
-            </div>
-            <div class="comment">
-                <strong>Budi:</strong> Merge sort lebih stabil kalau data besar.
-            </div>
-            <div class="comment">
-                <strong>Clara:</strong> Gimana dengan heap sort?
-            </div>
-        </div>
+        <!-- Tambahkan forum lain jika perlu -->
     </div>
 </div>
-
-<!-- Floating Action Button -->
-<a class="fab" title="Tambah Forum Baru" onclick="toggleForumForm()">
-    <i class="fas fa-plus"></i>
-</a>
-
-<!-- Form Tambah Forum -->
-<div class="forum-form" id="forumForm" style="display: none; margin-top: 20px;">
-    <div class="mb-3">
-        <input type="text" class="form-control" id="forumTitle" placeholder="Judul Forum Baru" required>
-        <textarea class="form-control" id="forumText" placeholder="Tulis forum baru Anda..." rows="3"></textarea>
-    </div>
-    <button type="button" class="btn btn-primary" id="submitForum">
-        <i class="fas fa-paper-plane me-2"></i>Kirim Forum
-    </button>
-</div>
-
-<!-- Tambahkan script toggle komentar -->
-<script>
-    function toggleForumForm() {
-        const form = document.getElementById('forumForm');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function toggleComments(commentId) {
-        const el = document.getElementById(commentId);
-        el.style.display = el.style.display === 'none' ? 'block' : 'none';
-    }
-</script>
-
-<!-- Tambahkan gaya sederhana -->
-<style>
-    .forum-card {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        cursor: pointer;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .forum-card:hover {
-        background: #f1f1f1;
-    }
-
-    .comment-section {
-        background: #fefefe;
-        border-left: 3px solid #b80000;
-        padding: 10px 15px;
-        border-radius: 0 5px 5px 0;
-    }
-
-    .comment {
-        margin-bottom: 10px;
-    }
-</style>
 
     <!-- Spacer -->
     <div style="height: 17.2vh;"></div>
