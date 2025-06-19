@@ -141,4 +141,27 @@ class CourseController extends Controller
             'data' => $oldDataPlain,
         ]);
     }
+
+    public function destroy(string $course_id) {
+        $oldData = $this->courseService->getDocumentById('course', $course_id);
+
+        if (!$oldData) {
+            return response()->json(['message' => 'course id tidak ditemukan'], 404);
+        }
+
+        $tutorCourseService = new FirestoreService('tutorCourse', app(\App\Services\FirebaseTokenService::class));
+        $tutorCourses = $tutorCourseService->getDocuments();
+
+        // Filter dokumen yang memiliki certificate_id yang cocok
+        foreach ($tutorCourses as $item) {
+            if (isset($item['course_id']) && $item['course_id'] === $course_id) {
+                app(\App\Http\Controllers\Api\TutorCourseController::class)->destroy($item['id']);
+            }
+        }
+
+        $this->courseService->deleteDocument($course_id);
+        return response()->json([
+            'message' => 'course berhasil dihapus'
+        ], 200);
+    }
 }
