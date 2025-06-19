@@ -55,7 +55,7 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
                 <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
-                <a href="{{ route('team') }}" class="nav-item nav-link">Courses</a>
+                <a href="{{ route('courses') }}" class="nav-item nav-link">Courses</a>
                 <a href="{{ route('forum') }}" class="nav-item nav-link">Forum</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="dropdown-toggle nav-link active" data-bs-toggle="dropdown">Pages</a>
@@ -88,6 +88,7 @@
             <div class="row g-4">
                 <!-- Tutor A1 -->
                 <div class="col-lg-3 col-md-6">
+                     <a href="{{route('lecturer')}}" class="text-decoration-none">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
                             <img class="img-fluid" src="img/team-1.jpg" alt="">
@@ -103,6 +104,7 @@
                             <small>Frontend Developer</small>
                         </div>
                     </div>
+                    </a>
                 </div>
                 <!-- Tutor A2 -->
                 <div class="col-lg-3 col-md-6">

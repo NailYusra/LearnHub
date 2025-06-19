@@ -55,7 +55,7 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
                 <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
-                <a href="{{ route('team') }}" class="nav-item nav-link active">Courses</a>
+                <a href="{{ route('courses') }}" class="nav-item nav-link active">Courses</a>
                 <a href="{{ route('forum') }}" class="nav-item nav-link">Forum</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -97,7 +97,7 @@
             
             <div class="row g-4">
                 <!-- Logika Matematika -->
-                <a href="team.html" class="col-lg-3 col-md-6 category-item" data-category="fif">
+                <a href="{{route('team')}}" class="col-lg-3 col-md-6 category-item" data-category="fif">
                     <div class="category-card">
                         <div class="category-header">
                             <h5 class="category-title">Logika Matematika</h5>
@@ -107,9 +107,8 @@
                     <p class="category-footer">Lecturers</p>
                     </div>
                 </a>
-
                 <!-- Kalkulus -->
-                <a href="team.html" class="col-lg-3 col-md-6 category-item" data-category="fif">
+                <a href="{{route('team')}}" class="col-lg-3 col-md-6 category-item" data-category="fif">
                     <div class="category-card">
                         <div class="category-header">
                             <h5 class="category-title">Kalkulus</h5>
@@ -119,78 +118,6 @@
                     <p class="category-footer">Lecturers</p>
                     </div>
                 </a>
-
-                <!-- Vandika -->
-                <div class="col-lg-3 col-md-6 category-item" data-category="fif">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <h5 class="category-title">Vandika</h5>
-                            <div class="category-count">1</div>
-                        </div>
-                        <p class="category-faculty">FIF</p>
-                        <p class="category-footer">Lecturers</p>
-                    </div>
-                </div>
-
-                <!-- Agus -->
-                <div class="col-lg-3 col-md-6 category-item" data-category="fte">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <h5 class="category-title">Agus</h5>
-                            <div class="category-count">2</div>
-                        </div>
-                        <p class="category-faculty">FTE</p>
-                        <p class="category-footer">Lecturers</p>
-                    </div>
-                </div>
-
-                <!-- Data Science -->
-                <div class="col-lg-3 col-md-6 category-item" data-category="fif">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <h5 class="category-title">Data Science</h5>
-                            <div class="category-count">7</div>
-                        </div>
-                        <p class="category-faculty">FIF</p>
-                        <p class="category-footer">Lecturers</p>
-                    </div>
-                </div>
-
-                <!-- Marketing -->
-                <div class="col-lg-3 col-md-6 category-item" data-category="feb">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <h5 class="category-title">Marketing</h5>
-                            <div class="category-count">6</div>
-                        </div>
-                        <p class="category-faculty">FEB</p>
-                        <p class="category-footer">Lecturers</p>
-                    </div>
-                </div>
-
-                <!-- Programming -->
-                <div class="col-lg-3 col-md-6 category-item" data-category="fif">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <h5 class="category-title">Programming</h5>
-                            <div class="category-count">8</div>
-                        </div>
-                        <p class="category-faculty">FIF</p>
-                        <p class="category-footer">Lecturers</p>
-                    </div>
-                </div>
-
-                <!-- Engineering -->
-                <div class="col-lg-3 col-md-6 category-item" data-category="fte">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <h5 class="category-title">Engineering</h5>
-                            <div class="category-count">9</div>
-                        </div>
-                        <p class="category-faculty">FTE</p>
-                        <p class="category-footer">Lecturers</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
