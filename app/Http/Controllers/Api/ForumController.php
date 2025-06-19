@@ -133,7 +133,7 @@ class ForumController extends Controller
         $answerForumService = new FirestoreService('answer_forums', app(\App\Services\FirebaseTokenService::class));
         $answer_forums = $answerForumService->getDocuments();
 
-        // Filter dokumen yang memiliki certificate_id yang cocok
+        // Filter dokumen yang memiliki forum_id yang cocok
         foreach ($answer_forums as $item) {
             if (isset($item['forum_id']) && $item['forum_id'] === $forum_id) {
                 $answerForumService->deleteDocument($item['id']);

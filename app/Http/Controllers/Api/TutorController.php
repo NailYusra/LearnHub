@@ -147,7 +147,7 @@ class TutorController extends Controller
         $chatService = new FirestoreService('chats', app(\App\Services\FirebaseTokenService::class));
         $chats = $chatService->getDocuments();
 
-        // Filter dokumen yang memiliki tutor_id yang cocok, hapus review
+        // Filter dokumen yang memiliki tutor_id yang cocok, hapus chat
         foreach ($chats as $item) {
             if (isset($item['tutor_id']) && $item['tutor_id'] === $tutor_id) {
                 app(\App\Http\Controllers\Api\ChatController::class)->destroy($item['id']);

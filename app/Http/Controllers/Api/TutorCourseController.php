@@ -135,6 +135,16 @@ class TutorCourseController extends Controller
             }
         }
 
+        $scheduleService = new FirestoreService('schedules', app(\App\Services\FirebaseTokenService::class));
+        $schedules = $scheduleService->getDocuments();
+
+        // Filter dokumen yang memiliki tutor_id dan course_id, lalu hapus jika cocok
+        foreach ($schedules as $item) {
+            if ((isset($item['tutor_id']) && $item['tutor_id'] == $oldData['tutor_id']['stringValue']) && (isset($item['course_id']) && $item['course_id'] == $oldData['course_id']['stringValue'])) {
+                $scheduleService->deleteDocument($item['id']);
+            }
+        }
+
         $this->tutorcourseService->deleteDocument($id);
         return response()->json([
             'message' => 'tutor course berhasil dihapus'

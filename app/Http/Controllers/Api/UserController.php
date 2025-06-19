@@ -241,4 +241,90 @@ class UserController extends Controller
             'data' => $updateData,
         ]);
     }
+
+    public function destroy(string $user_id) {
+        $oldData = $this->firestoreService->getDocumentById('users', $user_id);
+
+        if (!$oldData) {
+            return response()->json(['message' => 'user id tidak ditemukan'], 404);
+        }
+
+        // testing
+        //$user_id = "ggMaLDyEv8wrJLNHiZgs";
+
+        // delete forum dengan sender user_id
+        $forumService = new FirestoreService('forums', app(\App\Services\FirebaseTokenService::class));
+        $forums = $forumService->getDocuments();
+
+        foreach ($forums as $item) {
+            if (isset($item['user_id']) && $item['user_id'] === $user_id) {
+                app(\App\Http\Controllers\Api\ForumController::class)->destroy($item['id']);
+            }
+        }
+
+        // delete answerForum dengan sender user_id
+        $answerForumService = new FirestoreService('answer_forums', app(\App\Services\FirebaseTokenService::class));
+        $answer_forums = $answerForumService->getDocuments();
+
+        foreach ($answer_forums as $item) {
+            if (isset($item['user_id']) && $item['user_id'] === $user_id) {
+                $answerForumService->deleteDocument($item['id']);
+            }
+        }
+
+        $chatService = new FirestoreService('chats', app(\App\Services\FirebaseTokenService::class));
+        $chats = $chatService->getDocuments();
+
+        // Filter dokumen yang memiliki tutor_id yang cocok, hapus chat
+        foreach ($chats as $item) {
+            if (isset($item['user_id']) && $item['user_id'] === $user_id) {
+                app(\App\Http\Controllers\Api\ChatController::class)->destroy($item['id']);
+            }
+        }
+
+        $reviewService = new FirestoreService('reviews', app(\App\Services\FirebaseTokenService::class));
+        $reviews = $reviewService->getDocuments();
+
+        // Filter dokumen yang memiliki user_id yang cocok, hapus chat
+        foreach ($reviews as $item) {
+            if (isset($item['user_id']) && $item['user_id'] === $user_id) {
+                app(\App\Http\Controllers\Api\ReviewController::class)->destroy($item['id']);
+            }
+        }
+
+        $tutorService = new FirestoreService('tutor', app(\App\Services\FirebaseTokenService::class));
+        $tutors = $tutorService->getDocuments();
+
+        // Filter dokumen yang memiliki user_id yang cocok, hapus tutor
+        foreach ($tutors as $item) {
+            if (isset($item['user_id']) && $item['user_id'] === $user_id) {
+                app(\App\Http\Controllers\Api\TutorController::class)->destroy($item['id']);
+            }
+        }
+
+        $scheduleService = new FirestoreService('schedules', app(\App\Services\FirebaseTokenService::class));
+        $schedules = $scheduleService->getDocuments();
+
+        // Filter dokumen yang memiliki tutor_id yang cocok, hapus schedule
+        foreach ($schedules as $item) {
+            if (isset($item['user_id']) && $item['user_id'] === $user_id) {
+                app(\App\Http\Controllers\Api\ScheduleController::class)->destroy($item['id']);
+            }
+        }
+
+        $courseTakenService = new FirestoreService('course_takens', app(\App\Services\FirebaseTokenService::class));
+        $courseTakens = $courseTakenService->getDocuments();
+
+        // Filter dokumen yang memiliki tutor_id yang cocok, hapus schedule
+        foreach ($courseTakens as $item) {
+            if (isset($item['user_id']) && $item['user_id'] === $user_id) {
+                app(\App\Http\Controllers\Api\CourseTakenController::class)->destroy($item['id']);
+            }
+        }
+
+        $this->firestoreService->deleteDocument($user_id);
+        return response()->json([
+            'message' => 'user berhasil dihapus'
+        ], 200);
+    }
 }
