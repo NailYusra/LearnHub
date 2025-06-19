@@ -296,11 +296,47 @@
     background-color: #fff;
 }
 
-.comment {
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-radius: 6px;
-}
+
+    .forum-card {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1rem;
+    }
+
+    .comment-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .comment-btn {
+      background: none;
+      border: 1px solid red;
+      color: red;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+
+    .comment-list {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+
+    .comment-card {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .comment-card:last-child {
+      border-bottom: none;
+    }
 
     </style>
 </head>
@@ -321,14 +357,6 @@
                 <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
                 <a href="{{ route('courses') }}" class="nav-item nav-link active">Courses</a>
                 <a href="{{ route('forum') }}" class="nav-item nav-link active">Forum</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ route('team') }}" class="dropdown-item">Our Tutor</a>
-                        <a href="{{ route('testimonial') }}" class="dropdown-item">Testimonial</a>
-                        <a href="{{ route('404') }}" class="dropdown-item">404 Page</a>
-                    </div>
-                </div>
                 <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
             </div>
             <a href="{{ route('download') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
@@ -352,46 +380,27 @@
             <h1 class="mb-5">Ayo Bercerita</h1>
         </div>
 
-        <!-- Forum Card 1 -->
-        <div class="forum-card border rounded p-4 mb-4 shadow-sm">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h5 class="text-dark mb-0">Diskusi Algoritma</h5>
-                <span class="text-muted small">
-                    <i class="fas fa-user me-1"></i> Dibuat oleh: <strong>Nail</strong>
-                </span>
+        <div class="forum-card">
+            <h5>Diskusi Algoritma</h5>
+            <p>Mari bahas algoritma sorting terbaik!</p>
+            <div class="author">
+                <i class="fas fa-user"></i>
+                <span>Oleh: John Doe</span>
+        </div>
+           <!-- Komentar Dummy -->
+        <div class="comment-actions">
+            <button class="comment-btn" onclick="toggleComments('comments1')">
+                💬 Lihat Komentar
+            </button>
+        </div>
+
+        <div id="comments1" class="comment-list" style="display: none;">
+            <div class="comment-card">
+                <strong>Alice:</strong> Aku suka QuickSort!
             </div>
-            <p class="text-muted mb-3">Bagusan QuickSort, MergeSort, atau BubbleSort?</p>
-
-            <!-- Komentar Dummy -->
-            <div class="comments border-top pt-3">
-                <h6 class="text-primary">Jawaban / Komentar</h6>
-
-                <!-- Komentar 1 -->
-                <div class="comment border-bottom pb-2 mb-2">
-                    <p><strong>Alice:</strong> Saya rasa QuickSort sangat efisien untuk kebanyakan kasus.</p>
-                    <div class="d-flex gap-3">
-                        <span><i class="fas fa-thumbs-up text-success"></i> 10</span>
-                        <span><i class="fas fa-thumbs-down text-danger"></i> 2</span>
-                    </div>
-                </div>
-
-                <!-- Komentar 2 -->
-                <div class="comment border-bottom pb-2 mb-2">
-                    <p><strong>Bob:</strong> MergeSort lebih konsisten secara waktu eksekusi.</p>
-                    <div class="d-flex gap-3">
-                        <span><i class="fas fa-thumbs-up text-success"></i> 7</span>
-                        <span><i class="fas fa-thumbs-down text-danger"></i> 1</span>
-                    </div>
-                </div>
-
-                <!-- Komentar 3 -->
-                <div class="comment">
-                    <p><strong>Charlie:</strong> BubbleSort tidak disarankan, kecuali untuk pendidikan 😄</p>
-                    <div class="d-flex gap-3">
-                        <span><i class="fas fa-thumbs-up text-success"></i> 5</span>
-                        <span><i class="fas fa-thumbs-down text-danger"></i> 0</span>
-                    </div>
-                </div>
+            <div class="comment-card">
+                <strong>Bob:</strong> MergeSort tetap juara.
+            </div>
             </div>
         </div>
 
@@ -496,6 +505,15 @@
                 });
             });
         });
+
+          function toggleComments(id) {
+    const el = document.getElementById(id);
+    if (el.style.display === "none" || el.style.display === "") {
+      el.style.display = "block";
+    } else {
+      el.style.display = "none";
+    }
+  }
     </script>
 
 
