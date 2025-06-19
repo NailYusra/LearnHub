@@ -380,37 +380,110 @@
             <h1 class="mb-5">Ayo Bercerita</h1>
         </div>
 
+        <?php
+            $api_url = 'http://localhost:8080/api/forum/';
+
+            // Read JSON file
+            $json_data = file_get_contents($api_url);
+
+            // Decode JSON data into PHP array
+            $response_data = json_decode($json_data);
+
+            // All user data exists in 'data' object
+            $forum_data = $response_data;
+
+            // Traverse array and display user data
+            foreach ($forum_data as $item) {
+                echo '<div class="forum-card">';
+                echo        '<h5>' . $item->header_question . '</h5>';
+                echo        '<p>' . $item->question .'</p>';
+                echo        '<div class="author">';
+                echo            '<i class="fas fa-user"></i>';
+
+                $user_url = 'http://localhost:8080/api/users/' . $item->user_id;
+
+                // Read JSON file
+                $json_user_data = file_get_contents($user_url);
+
+                // Decode JSON data into PHP array
+                $response_user_data = json_decode($json_user_data, true);
+
+                // All user data exists in 'data' object
+                $user_data = (array)$response_user_data;
+                echo        '<span>Oleh:' . implode(" ", array_values($user_data)[0]) . '</span>';
+                echo        '</div>';
+
+                echo       '<div class="comment-actions">';
+                echo            '<button class="comment-btn" onclick="toggleComments('. "comments" . $item->forum_id . ')">';
+                echo                '💬 Lihat Komentar';
+                echo            '</button>';
+                echo        '</div>';
+
+                echo        '<div id="comments' . $item->forum_id . '" class="comment-list" style="display: none;">';
+                
+                $answer_url = 'http://localhost:8080/api/answerForum/' . $item->forum_id;
+
+                // Read JSON file
+                $json_answer_data = file_get_contents($answer_url);
+
+                // Decode JSON data into PHP array
+                $response_answer_data = json_decode($json_answer_data);
+
+                // All user data exists in 'data' object
+                $answer_data = $response_answer_data;
+
+                // Traverse array and display user data
+                foreach ($answer_data as $item_answer) {
+                    $user_url = 'http://localhost:8080/api/users/' . $item_answer->user_id;
+
+                    // Read JSON file
+                    $json_user_data = file_get_contents($user_url);
+
+                    // Decode JSON data into PHP array
+                    $response_user_data = json_decode($json_user_data, true);
+
+                    // All user data exists in 'data' object
+                    $user_data = (array)$response_user_data;
+
+                    echo            '<div class="comment-card">';
+                    echo               '<strong>'.implode(" ", array_values($user_data)[0]) .':</strong> '. $item_answer->answer;
+                    echo            '</div>';
+                    
+                }
+            }
+            echo        '</div>';
+            echo   '</div>';
+        ?>
+
+
         <div class="forum-card">
             <h5>Diskusi Algoritma</h5>
             <p>Mari bahas algoritma sorting terbaik!</p>
             <div class="author">
                 <i class="fas fa-user"></i>
                 <span>Oleh: John Doe</span>
-        </div>
+            </div>
            <!-- Komentar Dummy -->
-        <div class="comment-actions">
-            <button class="comment-btn" onclick="toggleComments('comments1')">
-                💬 Lihat Komentar
-            </button>
-        </div>
+            <div class="comment-actions">
+                <button class="comment-btn" onclick="toggleComments('comments1')">
+                    💬 Lihat Komentar
+                </button>
+            </div>
 
 
-        <div id="comments1" class="comment-list" style="display: none;">
-            <div class="comment-card">
-                <strong>Alice:</strong> Aku suka QuickSort!
-            </div>
-            <div class="comment-card">
-                <strong>Bob:</strong> MergeSort tetap juara.
-            </div>
+            <div id="comments1" class="comment-list" style="display: none;">
+                <div class="comment-card">
+                    <strong>Alice:</strong> Aku suka QuickSort!
+                </div>
+                <div class="comment-card">
+                    <strong>Bob:</strong> MergeSort tetap juara.
+                </div>
             </div>
         </div>
 
         <!-- Forum lainnya bisa ditambahkan di sini -->
              <!-- Floating Action Button -->
     <!-- Tombol FAB untuk menampilkan form tambah forum -->
-    
-
-    
     
     </div>
 </div>
