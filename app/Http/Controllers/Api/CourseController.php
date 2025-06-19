@@ -75,6 +75,36 @@ class CourseController extends Controller
         return response()->json($result);
     }
 
+    public function getAll()
+    {
+        $courses = $this->courseService->getDocuments();
+        
+        // ambil fakultas
+        $fakultasService = new FirestoreService('faculties', app(\App\Services\FirebaseTokenService::class));
+        $fakultas = $fakultasService->getDocuments();
+
+        // ambil prodi
+        $prodi = $this->prodiService->getDocuments();
+
+        $result = [];
+        foreach ($courses as $key => $value) {
+            $result[$key] = $value;
+            foreach($prodi as $item_prodi) {
+                if (isset($result[$key]['prodi_id']) && $result[$key]['prodi_id'] === $item_prodi['prodi_id']) {
+                    $result[$key]['nama_prodi'] = $item_prodi['nama'];
+                    $result[$key]['faculty_id'] = $item_prodi['faculty_id'];
+                }
+            }
+            foreach($fakultas as $item_fakultas) {
+                if (isset($result[$key]['faculty_id']) && $result[$key]['faculty_id'] === $item_fakultas['faculty_id']) {
+                    $result[$key]['nama_fakultas'] = $item_fakultas['nama'];
+                }
+            }
+        }
+
+        return response()->json($result);
+    }
+
     public function update(Request $request, string $course_id) {
         try {
             $data = $request->validate([

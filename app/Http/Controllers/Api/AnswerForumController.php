@@ -95,6 +95,23 @@ class AnswerForumController extends Controller
         return response()->json($result);
     }
 
+    public function getAnswerByForumID(string $forum_id) {
+        $answers = $this->answerService->getDocuments();
+        
+        $result = [];
+        foreach ($answers as $key => $value) {
+            if (isset($value['forum_id']) && $value['forum_id'] === $forum_id) {
+                $result[$key] = $value;
+            }
+        }
+
+        return response()->json([
+            'data' => $result,
+        ]);
+    }
+
+    
+
     public function update(Request $request, string $answer_id) {
         try {
             $data = $request->validate([

@@ -28,6 +28,7 @@ Route::put('/users/{user_id}', [UserController::class, 'update']);
 Route::delete('/users/{user_id}', [UserController::class, 'destroy']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
+Route::get('/users/{user_id}', [UserController::class, 'getUserByID']);
 
 use App\Http\Controllers\Api\FacultyController;
 Route::get('/faculties', [FacultyController::class, 'index']);
@@ -46,6 +47,7 @@ Route::post('/course', [CourseController::class, 'store']);
 Route::get('/course', [CourseController::class, 'index']);
 Route::put('/course/{course_id}', [CourseController::class, 'update']);
 Route::delete('/course/{course_id}', [CourseController::class, 'destroy']);
+Route::get('/course/getAll', [CourseController::class, 'getAll']);
 
 Route::get('/tutor', [TutorController::class, 'index']);
 Route::post('/tutor', [TutorController::class, 'store']);
@@ -81,6 +83,7 @@ Route::get('/answerForum', [AnswerForumController::class, 'index']);
 Route::post('/answerForum', [AnswerForumController::class, 'store']);
 Route::put('/answerForum/{answer_id}', [AnswerForumController::class, 'update']);
 Route::delete('/answerForum/{answer_id}', [AnswerForumController::class, 'destroy']);
+Route::get('/answerForum/{forum_id}', [AnswerForumController::class, 'getAnswerByForumID']);
 
 Route::get('/courseTaken', [CourseTakenController::class, 'index']);
 Route::post('/courseTaken', [CourseTakenController::class, 'store']);

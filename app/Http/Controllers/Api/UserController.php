@@ -25,6 +25,19 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    public function getUserByID(string $user_id) {
+        $answers = $this->firestoreService->getDocuments();
+        
+        $result = [];
+        foreach ($answers as $key => $value) {
+            if (isset($value['user_id']) && $value['user_id'] === $user_id) {
+                $result[$key] = $value;
+            }
+        }
+
+        return response()->json($result);
+    }
+
     public function store(Request $request)
     {
         try {
