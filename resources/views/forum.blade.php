@@ -389,18 +389,11 @@
         </div>
            <!-- Komentar Dummy -->
         <div class="comment-actions">
-            <button class="comment-btn" onclick="toggleCommentForum()">
-                💬 Komentar
-            </button>
             <button class="comment-btn" onclick="toggleComments('comments1')">
                 💬 Lihat Komentar
             </button>
         </div>
 
-        <div id="comment-form" class="comment-form" style="display: none; margin-top: 1rem;">
-            <textarea placeholder="Tulis komentar kamu..." rows="3" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;"></textarea>
-            <button style="margin-top: 0.5rem; padding: 0.5rem 1rem; border-radius: 6px; background-color: var(--primary); color: white; border: none;">Kirim</button>
-        </div>
 
         <div id="comments1" class="comment-list" style="display: none;">
             <div class="comment-card">
@@ -415,20 +408,10 @@
         <!-- Forum lainnya bisa ditambahkan di sini -->
              <!-- Floating Action Button -->
     <!-- Tombol FAB untuk menampilkan form tambah forum -->
-    <a class="fab" title="Tambah Forum Baru" onclick="toggleForumForm()">
-        <i class="fas fa-plus"></i>
-    </a>
+    
 
-    <!-- Form Tambah Forum (disembunyikan secara default) -->
-    <div class="forum-form" id="forumForm" style="display: none; margin-top: 20px;">
-        <div class="mb-3">
-            <input type="text" class="form-control" id="forumTitle" placeholder="Judul Forum Baru" required>
-            <textarea class="form-control" id="forumText" placeholder="Tulis forum baru Anda..." rows="3"></textarea>
-        </div>
-        <button type="button" class="btn btn-primary" id="submitForum">
-            <i class="fas fa-paper-plane me-2"></i>Kirim Forum
-        </button>
-    </div>
+    
+    
     </div>
 </div>
 
