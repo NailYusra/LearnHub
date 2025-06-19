@@ -293,14 +293,15 @@
         }
         /* baru tambahan */
         .forum-card {
-            background-color: #fff;
-        }
+    background-color: #fff;
+}
 
-        .comment {
-            background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 6px;
-        }
+.comment {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 6px;
+}
+
     </style>
 </head>
 <body> 
@@ -336,10 +337,10 @@
     <!-- Navbar End -->
 
 
-   <!-- Forum Header -->
+ <!-- Forum Header -->
 <div class="forum-header bg-light py-3 mb-4">
     <div class="container">
-        <h1 class="text-primary">Daftar Forum</h1>
+        <h1 class="">Daftar Forum</h1>
     </div>
 </div>
 
@@ -353,11 +354,13 @@
 
         <!-- Forum Card 1 -->
         <div class="forum-card border rounded p-4 mb-4 shadow-sm">
-            <h5 class="text-dark">Diskusi Algoritma</h5>
-            <p class="text-muted">Bagusan QuickSort, MergeSort, atau BubbleSort?</p>
-            <div class="author text-secondary mb-3">
-                <i class="fas fa-user me-1"></i> Oleh: John Doe
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="text-dark mb-0">Diskusi Algoritma</h5>
+                <span class="text-muted small">
+                    <i class="fas fa-user me-1"></i> Dibuat oleh: <strong>Nail</strong>
+                </span>
             </div>
+            <p class="text-muted mb-3">Bagusan QuickSort, MergeSort, atau BubbleSort?</p>
 
             <!-- Komentar Dummy -->
             <div class="comments border-top pt-3">
@@ -392,7 +395,7 @@
             </div>
         </div>
 
-        <!-- Tambahkan forum lain jika perlu -->
+        <!-- Forum lainnya bisa ditambahkan di sini -->
     </div>
 </div>
 
