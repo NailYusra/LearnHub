@@ -37,9 +37,20 @@ Route::get('/testimonial', function () {
     return view('testimonial');
 })->name('testimonial');
 
-Route::get('/login-register', function () {
-    return view('login-register');
-})->name('login-register');
+// // Auth page
+// Route::get('/login-register', function () {
+//     return view('login-register');
+// })->name('login-register');
+
+// Download page
+Route::get('/download', function () {
+    return view('download');
+})->name('download');
+
+// Lecturer page
+Route::get('/lecturer', function () {
+    return view('lecturer');
+})->name('lecturer');
 
 // 404 custom page
 Route::get('/404', function () {

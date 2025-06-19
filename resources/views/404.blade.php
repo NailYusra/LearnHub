@@ -56,18 +56,18 @@
                 <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
                 <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
                 <a href="{{ route('courses') }}" class="nav-item nav-link">Courses</a>
-                <a href=""{{ route('forum') }}"" class="nav-item nav-link">Forum</a>
+                <a href="{{ route('forum') }}" class="nav-item nav-link">Forum</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="dropdown-toggle nav-link active" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ route('team') }}" class="dropdown-item">Our Team</a>
+                        <a href="{{ route('team') }}" class="dropdown-item">Our Tutor</a>
                         <a href="{{ route('testimonial') }}" class="dropdown-item">Testimonial</a>
                         <a href="{{ route('404') }}" class="dropdown-item" style="color:red;">404 Page</a>
                     </div>
                 </div>
                 <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
             </div>
-            <a href="{{ route('login-register') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="{{ route('download') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->

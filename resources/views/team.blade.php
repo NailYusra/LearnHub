@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
@@ -56,18 +56,18 @@
                 <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
                 <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
                 <a href="{{ route('courses') }}" class="nav-item nav-link">Courses</a>
-                <a href=""{{ route('forum') }}"" class="nav-item nav-link">Forum</a>
+                <a href="{{ route('forum') }}" class="nav-item nav-link">Forum</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="dropdown-toggle nav-link active" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ route('team') }}" class="dropdown-item" style="color:red;">Our Team</a>
+                        <a href="{{ route('team') }}" class="dropdown-item" style="color:red;">Our Tutor</a>
                         <a href="{{ route('testimonial') }}" class="dropdown-item">Testimonial</a>
                         <a href="{{ route('404') }}" class="dropdown-item">404 Page</a>
                     </div>
                 </div>
                 <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
             </div>
-            <a href="{{ route('login-register') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="{{ route('download') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -79,7 +79,7 @@
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Our Team</h1>
+                    <h1 class="display-3 text-white animated slideInDown">Our Tutor</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
@@ -109,9 +109,8 @@
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('lecturer') }}"><i class="fa fa-user"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('download') }}"><i class="fa-regular fa-hand-point-up"></i></a>
                             </div>
                         </div>
                         <div class="text-center p-4">
@@ -127,9 +126,8 @@
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('lecturer') }}"><i class="fa fa-user"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('download') }}"><i class="fa-regular fa-hand-point-up"></i></a>
                             </div>
                         </div>
                         <div class="text-center p-4">
@@ -145,9 +143,8 @@
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('lecturer') }}"><i class="fa fa-user"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('download') }}"><i class="fa-regular fa-hand-point-up"></i></a>
                             </div>
                         </div>
                         <div class="text-center p-4">
@@ -163,9 +160,8 @@
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('lecturer') }}"><i class="fa fa-user"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('download') }}"><i class="fa-regular fa-hand-point-up"></i></a>
                             </div>
                         </div>
                         <div class="text-center p-4">
@@ -181,9 +177,8 @@
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('lecturer') }}"><i class="fa fa-user"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('download') }}"><i class="fa-regular fa-hand-point-up"></i></a>
                             </div>
                         </div>
                         <div class="text-center p-4">
@@ -199,9 +194,8 @@
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('lecturer') }}"><i class="fa fa-user"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('download') }}"><i class="fa-regular fa-hand-point-up"></i></a>
                             </div>
                         </div>
                         <div class="text-center p-4">
@@ -217,9 +211,8 @@
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('lecturer') }}"><i class="fa fa-user"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('download') }}"><i class="fa-regular fa-hand-point-up"></i></a>
                             </div>
                         </div>
                         <div class="text-center p-4">
@@ -235,9 +228,8 @@
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('lecturer') }}"><i class="fa fa-user"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="{{ route('download') }}"><i class="fa-regular fa-hand-point-up"></i></a>
                             </div>
                         </div>
                         <div class="text-center p-4">

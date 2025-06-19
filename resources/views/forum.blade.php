@@ -313,14 +313,14 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ route('team') }}" class="dropdown-item">Our Team</a>
+                        <a href="{{ route('team') }}" class="dropdown-item">Our Tutor</a>
                         <a href="{{ route('testimonial') }}" class="dropdown-item">Testimonial</a>
                         <a href="{{ route('404') }}" class="dropdown-item">404 Page</a>
                     </div>
                 </div>
                 <a href="{{ route('contact') }}" class="nav-item nav-link">Contact</a>
             </div>
-            <a href="{{ route('login-register') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="{{ route('download') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -334,43 +334,97 @@
     </div>
 
     <!-- Forum Content -->
-    <div class="content-wrapper">
-        <div class="container py-4">
-             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Forum</h6>
-                <h1 class="mb-5">Ayo Bercerita</h1>
+<div class="content-wrapper">
+    <div class="container py-4">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Forum</h6>
+            <h1 class="mb-5">Ayo Bercerita</h1>
+        </div>
+
+        <!-- Forum Card 1 -->
+        <div class="forum-card" onclick="toggleComments('comments-1')">
+            <h5>Diskusi Algoritma</h5>
+            <p>Mari bahas algoritma sorting terbaik!</p>
+            <div class="author">
+                <i class="fas fa-user"></i>
+                <span>Oleh: John Doe</span>
             </div>
-            <!-- Forum Card 1 -->
-            <div class="forum-card">
-                <h5>Diskusi Algoritma</h5>
-                <p>Mari bahas algoritma sorting terbaik!</p>
-                <div class="author">
-                    <i class="fas fa-user"></i>
-                    <span>Oleh: John Doe</span>
-                </div>
+        </div>
+
+        <!-- Komentar Dummy -->
+        <div id="comments-1" class="comment-section" style="display: none; margin-left: 20px; margin-top: 15px;">
+            <h6>Komentar:</h6>
+            <div class="comment">
+                <strong>Ana:</strong> Menurutku quick sort paling efisien.
+            </div>
+            <div class="comment">
+                <strong>Budi:</strong> Merge sort lebih stabil kalau data besar.
+            </div>
+            <div class="comment">
+                <strong>Clara:</strong> Gimana dengan heap sort?
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Floating Action Button -->
-    <!-- Tombol FAB untuk menampilkan form tambah forum -->
-    <a class="fab" title="Tambah Forum Baru" onclick="toggleForumForm()">
-        <i class="fas fa-plus"></i>
-    </a>
+<!-- Floating Action Button -->
+<a class="fab" title="Tambah Forum Baru" onclick="toggleForumForm()">
+    <i class="fas fa-plus"></i>
+</a>
 
-    <!-- Form Tambah Forum (disembunyikan secara default) -->
-    <div class="forum-form" id="forumForm" style="display: none; margin-top: 20px;">
-        <div class="mb-3">
-            <input type="text" class="form-control" id="forumTitle" placeholder="Judul Forum Baru" required>
-            <textarea class="form-control" id="forumText" placeholder="Tulis forum baru Anda..." rows="3"></textarea>
-        </div>
-        <button type="button" class="btn btn-primary" id="submitForum">
-            <i class="fas fa-paper-plane me-2"></i>Kirim Forum
-        </button>
+<!-- Form Tambah Forum -->
+<div class="forum-form" id="forumForm" style="display: none; margin-top: 20px;">
+    <div class="mb-3">
+        <input type="text" class="form-control" id="forumTitle" placeholder="Judul Forum Baru" required>
+        <textarea class="form-control" id="forumText" placeholder="Tulis forum baru Anda..." rows="3"></textarea>
     </div>
+    <button type="button" class="btn btn-primary" id="submitForum">
+        <i class="fas fa-paper-plane me-2"></i>Kirim Forum
+    </button>
+</div>
+
+<!-- Tambahkan script toggle komentar -->
+<script>
+    function toggleForumForm() {
+        const form = document.getElementById('forumForm');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function toggleComments(commentId) {
+        const el = document.getElementById(commentId);
+        el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+
+<!-- Tambahkan gaya sederhana -->
+<style>
+    .forum-card {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .forum-card:hover {
+        background: #f1f1f1;
+    }
+
+    .comment-section {
+        background: #fefefe;
+        border-left: 3px solid #b80000;
+        padding: 10px 15px;
+        border-radius: 0 5px 5px 0;
+    }
+
+    .comment {
+        margin-bottom: 10px;
+    }
+</style>
 
     <!-- Spacer -->
-    <div style="height: 18vh;"></div>
+    <div style="height: 17.2vh;"></div>
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer mt-5 wow fadeIn" data-wow-delay="0.1s">
