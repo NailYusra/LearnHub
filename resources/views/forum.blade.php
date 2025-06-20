@@ -418,11 +418,10 @@
                     echo        '</div>';
                 if (isset($user_data) && $user_data!=null) {
                     echo       '<div class="comment-actions">';
-                    echo            '<button class="comment-btn" onclick="toggleComments('. "comments" . $item->forum_id . ')">';
+                    echo            '<button class="comment-btn" onclick="toggleComments("comments'.$item->forum_id.'")">';
                     echo                '💬 Lihat Komentar';
                     echo            '</button>';
                     echo        '</div>';
-
                     
                     echo        '<div id="comments' . $item->forum_id . '" class="comment-list" style="display: none;">';
                     
@@ -438,7 +437,6 @@
 
                         // All user data exists in 'data' object
                         $answer_data = $response_answer_data;
-
                         // Traverse array and display user data
                         foreach ($answer_data as $item_answer) {
                             $user_url = 'http://localhost:8080/api/users/' . $item_answer->user_id;
@@ -451,11 +449,12 @@
 
                             // All user data exists in 'data' object
                             $user_data = $response_user_data;
+                            echo '<a>'. $item_answer->user_id . ' </a>';
 
                             echo            '<div class="comment-card">';
                             echo               '<strong>'. $user_data->nama .':</strong> '. $item_answer->answer;
                             echo            '</div>';
-                        }                      
+                        }
                     }
   
                         echo '</div>';
