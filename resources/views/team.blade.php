@@ -70,95 +70,59 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
-            <h1 class="mb-5">Pilih Course dan Temui Tutornya</h1>
+            <h6 class="section-title bg-white text-center text-primary px-3">Tutor</h6>
+            <?php
+                $course_id = last(explode('/',url()->current()));
+                $api_url = 'http://localhost:8080/api/course/'. $course_id;
+                // Read JSON file
+                $json_data = file_get_contents($api_url);
+                // Decode JSON data into PHP array
+                $response_data = json_decode($json_data);
+                // All user data exists in 'data' object
+                $course_data = $response_data;
+                echo '<h1 class="mb-5">'. $course_data->nama .'</h1>';
+            ?>
         </div>
 
         <!-- Course A -->
         <div class="mb-5">
-            <h3 class="text-primary mb-4">Course A</h3>
             <div class="row g-4">
-                <!-- Tutor A1 -->
-                <div class="col-lg-3 col-md-6">
-                     <a href="{{route('lecturer')}}" class="text-decoration-none">
-                    <div class="team-item bg-light">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="/img/team-1.jpg" alt="">
-                        </div>
-                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa fa-user"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa-regular fa-hand-point-up"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4">
-                            <h5 class="mb-0">Tutor X</h5>
-                            <small>Frontend Developer</small>
-                        </div>
-                    </div>
-                    </a>
-                </div>
-                <!-- Tutor A2 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="team-item bg-light">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="/img/team-2.jpg" alt="">
-                        </div>
-                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa fa-user"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa-regular fa-hand-point-up"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4">
-                            <h5 class="mb-0">Tutor Y</h5>
-                            <small>Backend Specialist</small>
-                        </div>
-                    </div>
-                </div>
-                <!-- Tutor A3 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="team-item bg-light">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="/img/team-3.jpg" alt="">
-                        </div>
-                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa fa-user"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa-regular fa-hand-point-up"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4">
-                            <h5 class="mb-0">Tutor Z</h5>
-                            <small>Full-Stack Engineer</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <?php
+                    $course_id = last(explode('/',url()->current()));
 
-        <!-- Course B -->
-        <div class="mb-5">
-            <h3 class="text-primary mb-4">Course B</h3>
-            <div class="row g-4">
-                <!-- Tutor B1 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="team-item bg-light">
-                        <div class="overflow-hidden">
-                            <img class="img-fluid" src="/img/team-4.jpg" alt="">
-                        </div>
-                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                <a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa fa-user"></i></a>
-                                <a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa-regular fa-hand-point-up"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4">
-                            <h5 class="mb-0">Tutor A</h5>
-                            <small>UI/UX Designer</small>
-                        </div>
-                    </div>
-                </div>
+                    $api_url = 'http://localhost:8080/api/tutor/course_id/'. $course_id;
+
+                    // Read JSON file
+                    $json_data = file_get_contents($api_url);
+
+                    // Decode JSON data into PHP array
+                    $response_data = json_decode($json_data);
+
+                    // All user data exists in 'data' object
+                    $tutor_data = $response_data;
+
+                    foreach ($tutor_data as $tutor) {
+                        echo    '<div class="col-lg-3 col-md-6">';
+                        echo        '<a href="/lecturer/'. $tutor->user_id . '" class="text-decoration-none">';
+                        echo        '<div class="team-item bg-light">';
+                        echo            '<div class="overflow-hidden">';
+                        echo                '<img class="img-fluid" src="/img/team-1.jpg" alt="">';
+                        echo            '</div>';
+                        echo            '<div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">';
+                        echo                '<div class="bg-light d-flex justify-content-center pt-2 px-1">';
+                        echo                    '<a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa fa-user"></i></a>';
+                        echo                    '<a class="btn btn-sm-square btn-primary mx-1" href="#"><i class="fa-regular fa-hand-point-up"></i></a>';
+                        echo                '</div>';
+                        echo            '</div>';
+                        echo            '<div class="text-center p-4">';
+                        echo                '<h5 class="mb-0">'. $tutor->nama .'</h5>';
+                        echo            '</div>';
+                        echo        '</div>';
+                        echo        '</a>';
+                        echo    '</div>';
+                    }
+
+                ?>
             </div>
         </div>
 
