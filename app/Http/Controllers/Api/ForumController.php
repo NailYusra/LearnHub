@@ -9,12 +9,13 @@ use App\Services\FirebaseTokenService;
 
 class ForumController extends Controller
 {
-    protected FirestoreService $forumService, $userService;
+    protected FirestoreService $forumService, $userService, $answerForumService;
 
     public function __construct()
     {
         $this->forumService = new FirestoreService('forums', app(FirebaseTokenService::class));
         $this->userService = new FirestoreService('users', app(FirebaseTokenService::class));
+        $this->answerForumService = new FirestoreService('answer_forums', app(FirebaseTokenService::class));
     }
 
     public function store(Request $request)
@@ -26,7 +27,7 @@ class ForumController extends Controller
         ]);
 
         // validasi user id
-        $userList = $this->userService->getAllDocuments(); 
+        $userList = $this->userService->getAllDocuments();
 
         $isUserValid = collect($userList)->contains(function ($item) use ($data) {
             return isset($item['user_id']) && $item['user_id'] === $data['user_id'];
@@ -144,6 +145,35 @@ class ForumController extends Controller
         return response()->json([
             'message' => 'forum berhasil dihapus'
         ], 200);
+    }
+
+    public function getForumFull()
+    {
+        $userList = $this->userService->getAllDocuments();
+        $forumList = $this->forumService->getDocuments();
+        $answerForumList = $this->answerForumService->getDocuments();
+
+        $result = [];
+        foreach ($forumList as $forum) {
+            $forum['user'] = collect($userList)->firstWhere('user_id', $forum['user_id'])['nama'] ?? 'Unknown User';
+            $forum['answers'] = collect($answerForumList)
+                ->where('forum_id', $forum['forum_id'])
+                ->map(function ($item) {
+                    $userList = $this->userService->getAllDocuments();
+                    return [
+                        'answer' => $item['answer'] ?? null,
+                        'user_id' => $item['user_id'] ?? null,
+                        'like' => $item['like'] ?? 0,
+                        'dislike' => $item['dislike'] ?? 0,
+                        'date' => $item['date'] ?? null,
+                        'user_nama' => collect($userList)->firstWhere('user_id', $item['user_id'])['nama'] ?? 'Unknown User',
+                    ];
+                })
+                ->all();
+            $result[] = $forum;
+        }
+        return response()->json($result);
+
     }
 
 }

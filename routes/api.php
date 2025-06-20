@@ -77,6 +77,7 @@ Route::put('/review/{review_id}', [ReviewController::class, 'update']);
 Route::delete('/review/{review_id}', [ReviewController::class, 'destroy']);
 
 Route::get('/forum', [ForumController::class, 'index']);
+Route::get('/forum/full', [ForumController::class, 'getForumFull']);
 Route::post('/forum', [ForumController::class, 'store']);
 Route::put('/forum/{forum_id}', [ForumController::class, 'update']);
 Route::delete('/forum/{forum_id}', [ForumController::class, 'destroy']);
