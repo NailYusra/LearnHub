@@ -1,389 +1,191 @@
 import 'package:flutter/material.dart';
-import 'package:learn_hub/screens/login_screen.dart';
+import '../services/api_service.dart';
+import '../models/prodi_model.dart'; // Impor model Prodi
+// Impor widget kustom Anda
+import '../widgets/custom_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
-
-  bool isPasswordVisible = false;
-  bool isConfirmPasswordVisible = false;
-  bool isLoading = false;
-
-  String? selectedRole;
-
-  final List<String> courses = [
-    'Algoritma dan Pemrograman',
-    'Basis Data',
-    'Jaringan Komputer',
-    'Struktur Data',
-    'Pemrograman Web',
-  ];
-  final Set<String> selectedCourses = {};
-
   final _formKey = GlobalKey<FormState>();
+  final _namaController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _noTelpController = TextEditingController();
+
+  // Hapus _prodiIdController dan ganti dengan variabel ini
+  String? _selectedProdiId;
+  late Future<List<Prodi>> _prodisFuture;
+
+  final _apiService = ApiService();
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Ambil daftar prodi saat halaman pertama kali dimuat
+    _prodisFuture = _apiService.getProdis();
+  }
+
+  void _handleRegister() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+
+      try {
+        // Siapkan data untuk dikirim ke API
+        Map<String, String> userData = {
+          'nama': _namaController.text,
+          'email': _emailController.text,
+          'password': _passwordController.text,
+          'password_confirmation': _passwordController.text,
+          if (_noTelpController.text.isNotEmpty) 'no_telp': _noTelpController.text,
+          // Gunakan _selectedProdiId yang sudah tersimpan
+          if (_selectedProdiId != null) 'prodi_id': _selectedProdiId!,
+        };
+
+        await _apiService.registerUser(userData);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Registrasi berhasil! Silakan login.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        if (mounted) Navigator.pop(context);
+
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+        );
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
+    }
+  }
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    _namaController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _noTelpController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        title: const Text("Daftar Akun Baru"),
+        backgroundColor: Colors.white,
+        elevation: 1,
       ),
-      body: SafeArea(
+      body: Center(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: screenHeight * 0.02),
-                  Text(
-                    'Create Account',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.08,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFFB71C1C),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.015),
-                  Text(
-                    'Create an account so you can explore all the existing jobs',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.04,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.05),
+          padding: const EdgeInsets.all(32.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Buat Akun Anda",
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const SizedBox(height: 32),
+                CustomTextField(
+                  controller: _namaController,
+                  label: 'Nama Lengkap',
+                  validator: (value) => value!.isEmpty ? 'Nama tidak boleh kosong' : null,
+                ),
+                CustomTextField(
+                  controller: _emailController,
+                  label: 'Email',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'Email tidak boleh kosong';
+                    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) return 'Masukkan alamat email yang valid';
+                    return null;
+                  },
+                ),
+                CustomTextField(
+                  controller: _passwordController,
+                  label: 'Password',
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'Password minimal 6 karakter';
+                    if (value.length < 6) return 'Password minimal 6 karakter';
+                    return null;
+                  },
+                ),
+                CustomTextField(
+                  controller: _noTelpController,
+                  label: 'Nomor Telepon (Opsional)',
+                ),
+                const SizedBox(height: 8),
 
-                  TextFormField(
-                    controller: emailController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email cannot be empty';
-                      }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}\$').hasMatch(value)) {
-                        return 'Enter a valid email';
-                      }
-                      return null;
-                    },
-                    decoration: _inputDecoration('Email'),
-                  ),
-                  SizedBox(height: screenHeight * 0.02),
+                // -- INI BAGIAN DROPDOWN BARU --
+                FutureBuilder<List<Prodi>>(
+                  future: _prodisFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                      );
+                    }
+                    if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const CustomTextField(label: 'Gagal memuat prodi');
+                    }
 
-                  TextFormField(
-                    controller: passwordController,
-                    obscureText: !isPasswordVisible,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Password cannot be empty';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                    decoration: _inputDecoration('Password').copyWith(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                          color: Colors.black45,
+                    final prodis = snapshot.data!;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedProdiId,
+                        decoration: InputDecoration(
+                          labelText: 'Program Studi (Opsional)',
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                          filled: true,
+                          fillColor: Colors.blue[50],
                         ),
-                        onPressed: () {
+                        hint: const Text('Pilih Prodi'),
+                        items: prodis.map((Prodi prodi) {
+                          return DropdownMenuItem<String>(
+                            value: prodi.id, // Nilai yang disimpan adalah ID
+                            child: Text(prodi.nama), // Teks yang ditampilkan adalah Nama
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
                           setState(() {
-                            isPasswordVisible = !isPasswordVisible;
+                            _selectedProdiId = newValue;
                           });
                         },
                       ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.02),
+                    );
+                  },
+                ),
+                // -- AKHIR BAGIAN DROPDOWN --
 
-                  TextFormField(
-                    controller: confirmPasswordController,
-                    obscureText: !isConfirmPasswordVisible,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Confirm your password';
-                      }
-                      if (value != passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
-                    decoration: _inputDecoration('Confirm Password').copyWith(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                          color: Colors.black45,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isConfirmPasswordVisible = !isConfirmPasswordVisible;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: screenHeight * 0.03),
-
-                  RadioListTile<String>(
-                    title: const Text('Mentee'),
-                    value: 'mentee',
-                    groupValue: selectedRole,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedRole = value;
-                        selectedCourses.clear();
-                      });
-                    },
-                  ),
-                  RadioListTile<String>(
-                    title: const Text('Mentor'),
-                    value: 'mentor',
-                    groupValue: selectedRole,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedRole = value;
-                      });
-                    },
-                  ),
-
-                  if (selectedRole == 'mentor') ...[
-                    const SizedBox(height: 10),
-                    Text(
-                      'Pilih Mata Kuliah yang Dikuasai:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 4,
-                      children: courses.map((course) {
-                        return FilterChip(
-                          label: Text(course),
-                          selected: selectedCourses.contains(course),
-                          onSelected: (bool selected) {
-                            setState(() {
-                              if (selected) {
-                                selectedCourses.add(course);
-                              } else {
-                                selectedCourses.remove(course);
-                              }
-                            });
-                          },
-                          selectedColor: Colors.red.shade100,
-                          checkmarkColor: Colors.red.shade800,
-                        );
-                      }).toList(),
-                    ),
-                  ],
-
-                  SizedBox(height: screenHeight * 0.04),
-
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFB71C1C),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: isLoading ? null : _handleSignUp,
-                      child: isLoading
-                          ? const SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        ),
-                      )
-                          : Text(
-                        'Sign up',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.045,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: screenHeight * 0.02),
-
-                  Align(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const LoginScreen()),
-                        );
-                      },
-                      child: Text(
-                        'Already have an account?',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: screenWidth * 0.035,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: screenHeight * 0.04),
-
-                  Text(
-                    'Or continue with',
-                    style: TextStyle(
-                      color: const Color(0xFFB71C1C),
-                      fontSize: screenWidth * 0.04,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.grey.shade200,
-                      ),
-                      child: const Icon(Icons.g_mobiledata, size: 36, color: Colors.black87),
-                    ),
-                  ),
-
-                  SizedBox(height: screenHeight * 0.05),
-                ],
-              ),
+                const SizedBox(height: 32),
+                _isLoading
+                    ? const CircularProgressIndicator()
+                    : CustomButton(
+                  text: 'Daftar',
+                  onPressed: _handleRegister,
+                ),
+              ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  InputDecoration _inputDecoration(String hintText) {
-    return InputDecoration(
-      hintText: hintText,
-      hintStyle: const TextStyle(color: Colors.black45),
-      filled: true,
-      fillColor: const Color(0xFFF4F6FA),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.black26, width: 1.5),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFFB71C1C), width: 2),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.red, width: 2),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.red, width: 2),
-      ),
-    );
-  }
-
-  void _handleSignUp() {
-    if (_formKey.currentState!.validate()) {
-      if (selectedRole == 'mentor' && selectedCourses.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Pilih setidaknya satu mata kuliah')),
-        );
-        return;
-      }
-
-      setState(() {
-        isLoading = true;
-      });
-
-      Future.delayed(const Duration(seconds: 2), () {
-        setState(() {
-          isLoading = false;
-        });
-
-        _showSuccessDialog();
-      });
-    }
-  }
-
-  void _showSuccessDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: const Icon(Icons.check_circle_outline, size: 60, color: Colors.green),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Text('Success!',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87)),
-              SizedBox(height: 8),
-              Text('Your account has been created successfully.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.black54)),
-            ],
-          ),
-          actions: [
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFB71C1C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  );
-                },
-                child: const Text('Continue to Login',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

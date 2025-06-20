@@ -1,40 +1,30 @@
+// This is a basic Flutter widget test.
+//
+// To perform an interaction with a widget in your test, use the WidgetTester
+// utility in the flutter_test package. For example, you can send tap and scroll
+// gestures. You can also use WidgetTester to find child widgets in the widget
+// tree, read text, and verify that the values of widget properties are correct.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:learn_hub/screens/welcome_screen.dart'; // ganti your_project_name
+
+import 'package:learnhub_app/main.dart';
 
 void main() {
-  testWidgets('WelcomeScreen UI Test', (WidgetTester tester) async {
-    // Load the WelcomeScreen
-    await tester.pumpWidget(
-      const MaterialApp(
-        home: WelcomeScreen(),
-      ),
-    );
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
 
-    // Cek apakah teks "Discover what you're looking for" muncul
-    expect(find.text("Discover what\nyou're looking for"), findsOneWidget);
+    // Verify that our counter starts at 0.
+    expect(find.text('0'), findsOneWidget);
+    expect(find.text('1'), findsNothing);
 
-    // Cek apakah teks welcome subjudul muncul
-    expect(
-      find.text('Welcome to LearnHub – where learning gets easier, one step at a time!'),
-      findsOneWidget,
-    );
+    // Tap the '+' icon and trigger a frame.
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pump();
 
-    // Cek apakah tombol "Login" ada
-    expect(find.text('Login'), findsOneWidget);
-
-    // Cek apakah tombol "Register" ada
-    expect(find.text('Register'), findsOneWidget);
-
-    // Cek apakah gambar welcome_logo muncul
-    expect(
-      find.byWidgetPredicate(
-            (widget) =>
-        widget is Image &&
-            widget.image is AssetImage &&
-            (widget.image as AssetImage).assetName == 'assets/images/welcome_logo.png',
-      ),
-      findsOneWidget,
-    );
+    // Verify that our counter has incremented.
+    expect(find.text('0'), findsNothing);
+    expect(find.text('1'), findsOneWidget);
   });
 }

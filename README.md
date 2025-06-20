@@ -1,4 +1,4 @@
-# learn_hub
+# learnhub_app
 
 A new Flutter project.
 
