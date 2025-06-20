@@ -53,7 +53,8 @@ Route::get('/tutor', [TutorController::class, 'index']);
 Route::post('/tutor', [TutorController::class, 'store']);
 Route::put('/tutor/{tutor_id}', [TutorController::class, 'update']);
 Route::delete('/tutor/{tutor_id}', [TutorController::class, 'destroy']);
-Route::get('/tutor/{course_id}', [TutorController::class, 'getTutorByCourseID']);
+Route::get('/tutor/course_id/{course_id}', [TutorController::class, 'getTutorByCourseID']);
+Route::get('/tutor/tutor_id/{tutor_id}', [TutorController::class, 'getTutorByID']);
 
 Route::get('/tutorCourse', [TutorCourseController::class, 'index']);
 Route::post('/tutorCourse', [TutorCourseController::class, 'store']);
