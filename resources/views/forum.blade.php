@@ -412,8 +412,11 @@
                 $user_data = $response_user_data;
                 if (isset($user_data) && $user_data!=null) {
                     echo        '<span>Oleh:' . $user_data->nama . '</span>';
+                }else {
+                    echo        '<span>Oleh: rusak </span>';
+                }
                     echo        '</div>';
-
+                if (isset($user_data) && $user_data!=null) {
                     echo       '<div class="comment-actions">';
                     echo            '<button class="comment-btn" onclick="toggleComments('. "comments" . $item->forum_id . ')">';
                     echo                '💬 Lihat Komentar';
@@ -457,17 +460,42 @@
   
                         echo '</div>';
                 }   
+                echo '</div>';
             }
-            echo        '</div>';
-            echo   '</div>';
         ?>
+        </div>
 
-        
+        <!-- 
+            <div class="forum-card">
+                <h5>Diskusi Algoritma</h5>
+                <p>Mari bahas algoritma sorting terbaik!</p>
+                <div class="author">
+                    <i class="fas fa-user"></i>
+                    <span>Oleh: John Doe</span>
+                </div>
+                 
+                <div class="comment-actions">
+                    <button class="comment-btn" onclick="toggleComments('comments1')">
+                        💬 Lihat Komentar
+                    </button>
+                </div>
+
+
+                <div id="comments1" class="comment-list" style="display: none;">
+                    <div class="comment-card">
+                        <strong>Alice:</strong> Aku suka QuickSort!
+                    </div>
+                    <div class="comment-card">
+                        <strong>Bob:</strong> MergeSort tetap juara.
+                    </div>
+                </div>
+            </div>
+        -->
         
 
         <!-- Forum lainnya bisa ditambahkan di sini -->
              <!-- Floating Action Button -->
-    <!-- Tombol FAB untuk menampilkan form tambah forum -->
+     <!-- Tombol FAB untuk menampilkan form tambah forum -->
     
     </div>
 </div>
