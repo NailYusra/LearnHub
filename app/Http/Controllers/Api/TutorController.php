@@ -50,6 +50,27 @@ class TutorController extends Controller
         return response()->json($data);
     }
 
+    public function getTutorByID(string $tutor_id) {
+        $oldData = $this->tutorServive->getDocumentById('tutor', $tutor_id);
+
+        if (!$oldData) {
+            return response()->json(['message' => 'tutor id tidak ditemukan'], 404);
+        }
+
+        $oldDataPlain = [];
+        foreach ($oldData as $key => $value) {
+            $oldDataPlain[$key] = $value['stringValue'] ?? null;
+        }
+
+        foreach (['user_id', 'tutor_id', 'rating_mean', 'num_customer'] as $field) {
+            if (isset($data[$field])) {
+                $oldDataPlain[$field] = $oldData[$field];
+            }
+        }
+
+        return response()->json($oldDataPlain);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
