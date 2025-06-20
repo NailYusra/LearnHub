@@ -264,12 +264,12 @@
             .forum-header h1 {
                 font-size: 2rem;
             }
-            
+
             .forum-card {
                 padding: 1rem;
                 margin-bottom: 0.75rem;
             }
-            
+
             .fab {
                 bottom: 100px; /* Above bottom nav */
                 right: 1rem;
@@ -340,7 +340,7 @@
 
     </style>
 </head>
-<body> 
+<body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="{{ route('home') }}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
@@ -418,13 +418,13 @@
                     echo        '</div>';
                 if (isset($user_data) && $user_data!=null) {
                     echo       '<div class="comment-actions">';
-                    echo            '<button class="comment-btn" onclick="toggleComments("comments'.$item->forum_id.'")">';
+                    echo            '<button class="comment-btn" onclick="toggleComments(\'comments'.strtolower($item->forum_id).'\')">';
                     echo                '💬 Lihat Komentar';
                     echo            '</button>';
                     echo        '</div>';
-                    
-                    echo        '<div id="comments' . $item->forum_id . '" class="comment-list" style="display: none;">';
-                    
+
+                    echo        '<div id="comments' . strtolower($item->forum_id) . '" class="comment-list" style="display: none;">';
+
                     $answer_url = 'http://localhost:8080/api/answerForum/' . $item->forum_id;
 
                     if (isset($item->forum_id) && $item->forum_id != null) {
@@ -456,15 +456,15 @@
                             echo            '</div>';
                         }
                     }
-  
+
                         echo '</div>';
-                }   
+                }
                 echo '</div>';
             }
         ?>
         </div>
 
-        <!-- 
+        <!--
             <div class="forum-card">
                 <h5>Diskusi Algoritma</h5>
                 <p>Mari bahas algoritma sorting terbaik!</p>
@@ -472,7 +472,7 @@
                     <i class="fas fa-user"></i>
                     <span>Oleh: John Doe</span>
                 </div>
-                 
+
                 <div class="comment-actions">
                     <button class="comment-btn" onclick="toggleComments('comments1')">
                         💬 Lihat Komentar
@@ -490,12 +490,12 @@
                 </div>
             </div>
         -->
-        
+
 
         <!-- Forum lainnya bisa ditambahkan di sini -->
              <!-- Floating Action Button -->
      <!-- Tombol FAB untuk menampilkan form tambah forum -->
-    
+
     </div>
 </div>
 
@@ -529,7 +529,7 @@
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Newsletter</h4>
                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                   
+
                 </div>
             </div>
         </div> -->
@@ -583,7 +583,7 @@
             fab.addEventListener('click', function(e) {
                 e.preventDefault();
                 // Add new forum logic here
-             
+
             });
 
             // Bottom nav click handlers
@@ -591,13 +591,13 @@
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
+
                     // Remove active class from all links
                     navLinks.forEach(l => l.classList.remove('active'));
-                    
+
                     // Add active class to clicked link
                     this.classList.add('active');
-                    
+
                     // Navigation logic would go here
                     const section = this.querySelector('span').textContent;
                     console.log('Navigating to:', section);
@@ -629,4 +629,3 @@
 </body>
 
 </html>
-    

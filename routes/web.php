@@ -30,7 +30,8 @@ Route::get('/forum', function () {
 // Team page
 Route::get('/team/{course_id?}', function () {
     return view('team');
-})->name('team');
+})->name('teamID');
+
 Route::get('/team', function () {
     return view('team');
 })->name('team');
@@ -52,6 +53,10 @@ Route::get('/download', function () {
 
 // Lecturer page
 Route::get('/lecturer', function () {
+    return view('lecturer');
+})->name('lecturer');
+
+Route::get('/lecturer/{tutor_Id?}', function () {
     return view('lecturer');
 })->name('lecturer');
 
