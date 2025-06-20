@@ -78,7 +78,7 @@ class CourseController extends Controller
     public function getAll()
     {
         $courses = $this->courseService->getDocuments();
-        
+
         // ambil fakultas
         $fakultasService = new FirestoreService('faculties', app(\App\Services\FirebaseTokenService::class));
         $fakultas = $fakultasService->getDocuments();
@@ -193,5 +193,15 @@ class CourseController extends Controller
         return response()->json([
             'message' => 'course berhasil dihapus'
         ], 200);
+    }
+
+    public function getCourseByID(string $course_id) {
+        $course = collect($this->courseService->getAllDocuments())->firstWhere('course_id', $course_id);
+        if (!$course) {
+            return response()->json(['message' => 'course id tidak ditemukan'], 404);
+        }
+
+
+        return response()->json($course);
     }
 }
