@@ -57,7 +57,7 @@
                 <div class="col-lg-6">
                     <div class="hero-content">
                         <h1 class="display-4 fw-bold mb-4">Take Learning Anywhere with LearnHub Mobile</h1>
-                        <p class="fs-5 mb-4">Access thousands of courses, track your progress, and learn on the go with our powerful mobile app. Available for iOS and Android devices.</p>
+                        <p class="fs-5 mb-4">Belajar jadi lebih fleksibel! Akses ribuan kursus, pantau progresmu, dan tingkatkan skill di mana saja lewat aplikasi mobile kami.</p>
                         <div class="d-flex flex-wrap">
                             <a href="#download" class="btn btn-light btn-lg me-3 mb-3">
                                 <i class="download"></i>Download Now
@@ -127,30 +127,10 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fas fa-download"></i>
+                            <i class="fas fa-phone"></i>
                         </div>
-                        <h5>Offline Learning</h5>
-                        <p>Download courses and learn without internet connection. Perfect for commuting or traveling.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-sync"></i>
-                        </div>
-                        <h5>Sync Across Devices</h5>
-                        <p>Start learning on your phone and continue on your tablet or computer. All progress synced automatically.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-bell"></i>
-                        </div>
-                        <h5>Smart Notifications</h5>
-                        <p>Get personalized reminders and updates to keep you motivated and on track with your learning goals.</p>
+                        <h5>Live Video Call with Tutor</h5>
+                        <p>Dapatkan bimbingan langsung dari tutor melalui panggilan video. Solusi cepat dan personal untuk setiap pertanyaan Anda.</p>
                     </div>
                 </div>
 
@@ -160,7 +140,7 @@
                             <i class="fas fa-video"></i>
                         </div>
                         <h5>HD Video Streaming</h5>
-                        <p>Watch high-quality video lectures with adaptive streaming for the best viewing experience.</p>
+                        <p>Nikmati kuliah video berkualitas tinggi dengan streaming adaptif untuk pengalaman belajar terbaik.</p>
                     </div>
                 </div>
 
@@ -170,17 +150,7 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <h5>Community Access</h5>
-                        <p>Connect with fellow learners, join discussions, and get help from instructors directly in the app.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-certificate"></i>
-                        </div>
-                        <h5>Digital Certificates</h5>
-                        <p>Earn and share certificates instantly. Add them to your LinkedIn profile with one tap.</p>
+                        <p>Terhubung dengan pelajar lain, ikut diskusi, dan dapatkan bantuan langsung dari pengajar di dalam aplikasi.</p>
                     </div>
                 </div>
             </div>
