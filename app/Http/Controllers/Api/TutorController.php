@@ -28,6 +28,9 @@ class TutorController extends Controller
         $tutorCourseService = new FirestoreService('tutorCourse', app(FirebaseTokenService::class));
         $tutorCourses = $tutorCourseService->getAllDocuments();
 
+        $userService = new FirestoreService('users', app(FirebaseTokenService::class));
+        $users = $userService->getAllDocuments();
+
         // ambil courses dengan id yang sama dengan $course_id, lalu masukkan ke $result
         $result = [];
         foreach ($tutorCourses as $tutorCourse) {
@@ -35,17 +38,32 @@ class TutorController extends Controller
                 $result[] = $tutorCourse;
             }
         }
-        
+
         $tutors = $this->tutorServive->getAllDocuments();
 
         $data = [];
+        // Filter data berdasarkan tutor_id yang ada di $result
         foreach ($result as $tutorCourse) {
             foreach ($tutors as $item) {
                 if (isset($item['tutor_id']) && $item['tutor_id'] === $tutorCourse['tutor_id']) {
-                    $data[] = $item;
+                    // Ambil data user berdasarkan user_id dari tutor
+                    foreach ($users as $user) {
+                        if (isset($user['user_id']) && $user['user_id'] === $item['user_id']) {
+                            $data[] = array_merge($item, ['nama' => $user['nama'] ?? null]);
+                        }
+                    }
                 }
             }
         }
+        // foreach ($result as $tutorCourse) {
+        //     foreach ($tutors as $item) {
+        //         if (isset($item['tutor_id']) && $item['tutor_id'] === $tutorCourse['tutor_id']) {
+        //             $data[] = $item;
+        //         }
+        //     }
+        // }
+
+
 
         return response()->json($data);
     }
@@ -101,7 +119,7 @@ class TutorController extends Controller
 
         // 3. Ambil data dokumen lama
         $oldData = $this->tutorServive->getDocumentById('tutor', $tutorid);
-        
+
         // 4. Extract nilai string dari oldData, atau kosongkan jika tidak ada
         $oldDataPlain = [];
         foreach ($oldData ?? [] as $key => $value) {
