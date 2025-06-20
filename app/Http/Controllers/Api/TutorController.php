@@ -69,24 +69,51 @@ class TutorController extends Controller
     }
 
     public function getTutorByID(string $tutor_id) {
-        $oldData = $this->tutorServive->getDocumentById('tutor', $tutor_id);
+        // $oldData = $this->tutorServive->getDocumentById('tutor', $tutor_id);
+        $oldData = collect($this->tutorServive->getAllDocuments())->firstWhere('tutor_id', $tutor_id);
+        $userService = new FirestoreService('users', app(FirebaseTokenService::class));
+        $kumpulanCertificateService = new FirestoreService('kumpulanCertificates', app(FirebaseTokenService::class));
+        $prodiService = new FirestoreService('prodi', app(FirebaseTokenService::class));
+        $tutorCourseService = new FirestoreService('tutorCourse', app(FirebaseTokenService::class));
 
-        if (!$oldData) {
-            return response()->json(['message' => 'tutor id tidak ditemukan'], 404);
+        $user = collect($userService->getAllDocuments())->firstWhere('user_id', $oldData['user_id'] ?? null);
+        $kumpulanCertificate = $kumpulanCertificateService->getDocuments();
+        $prodi = collect($prodiService->getAllDocuments())->firstWhere('prodi_id', $user['prodi_id'] ?? null);
+        $tutorCourse = collect($tutorCourseService->getAllDocuments())->where('tutor_id', $tutor_id)->all();
+        $result = [];
+        if ($oldData) {
+            $result = [
+                'tutor_id' => $tutor_id,
+                'user_id' => $oldData['user_id'] ?? null,
+                'rating_mean' => $oldData['rating_mean'] ?? 0,
+                'num_customer' => $oldData['num_customer'] ?? 0,
+                'nama' => $user['nama'] ?? 'Unknown User',
+                'bio' => $user['bio'] ?? '...',
+                'no_telp' => $user['no_telp'] ?? 'No Phone Number',
+                'email' => $user['email'] ?? 'No Email',
+                'prodi_id' => $user['prodi_id'] ?? null,
+                'prodi_nama' => $prodi['nama'] ?? 'Unknown Prodi',
+                'kumpulanCertificate' => count(collect($kumpulanCertificate)->where('tutor_id', $tutor_id)->all()) ?? 0,
+                'num_course' => count(collect($tutorCourse)->where('tutor_id', $tutor_id)->all()) ?? 0,
+            ];
         }
 
-        $oldDataPlain = [];
-        foreach ($oldData as $key => $value) {
-            $oldDataPlain[$key] = $value['stringValue'] ?? null;
-        }
+        // if (!$oldData) {
+        //     return response()->json(['message' => 'tutor id tidak ditemukan'], 404);
+        // }
 
-        foreach (['user_id', 'tutor_id', 'rating_mean', 'num_customer'] as $field) {
-            if (isset($data[$field])) {
-                $oldDataPlain[$field] = $oldData[$field];
-            }
-        }
+        // $oldDataPlain = [];
+        // foreach ($oldData as $key => $value) {
+        //     $oldDataPlain[$key] = $value['stringValue'] ?? null;
+        // }
 
-        return response()->json($oldDataPlain);
+        // foreach (['user_id', 'tutor_id', 'rating_mean', 'num_customer'] as $field) {
+        //     if (isset($data[$field])) {
+        //         $oldDataPlain[$field] = $oldData[$field];
+        //     }
+        // }
+
+        return response()->json($result);
     }
 
     public function store(Request $request)
