@@ -381,7 +381,7 @@
         </div>
 
         <?php
-            $api_url = 'http://localhost:8080/api/forum/';
+            $api_url = 'http://localhost:8080/api/forum/full';
 
             // Read JSON file
             $json_data = file_get_contents($api_url);
@@ -399,66 +399,30 @@
                 echo        '<p>' . $item->question .'</p>';
                 echo        '<div class="author">';
                 echo            '<i class="fas fa-user"></i>';
-
-                $user_url = 'http://localhost:8080/api/users/' . $item->user_id;
-
-                // Read JSON file
-                $json_user_data = file_get_contents($user_url);
-
-                // Decode JSON data into PHP array
-                $response_user_data = json_decode($json_user_data);
-
-                // All user data exists in 'data' object
-                $user_data = $response_user_data;
                 if (isset($user_data) && $user_data!=null) {
-                    echo        '<span>Oleh:' . $user_data->nama . '</span>';
+                    echo        '<span>Oleh:' . $item->user . '</span>';
                 }else {
                     echo        '<span>Oleh: rusak </span>';
                 }
-                    echo        '</div>';
-                if (isset($user_data) && $user_data!=null) {
-                    echo       '<div class="comment-actions">';
-                    echo            '<button class="comment-btn" onclick="toggleComments(\'comments'.strtolower($item->forum_id).'\')">';
-                    echo                '💬 Lihat Komentar';
-                    echo            '</button>';
-                    echo        '</div>';
+                echo        '</div>';
 
-                    echo        '<div id="comments' . strtolower($item->forum_id) . '" class="comment-list" style="display: none;">';
+                echo       '<div class="comment-actions">';
+                echo            '<button class="comment-btn" onclick="toggleComments(\'comments'.strtolower($item->forum_id).'\')">';
+                echo                '💬 Lihat Komentar';
+                echo            '</button>';
+                echo        '</div>';
 
-                    $answer_url = 'http://localhost:8080/api/answerForum/' . $item->forum_id;
+                echo        '<div id="comments' . strtolower($item->forum_id) . '" class="comment-list" style="display: none;">';
 
-                    if (isset($item->forum_id) && $item->forum_id != null) {
-
-                        // Read JSON file
-                        $json_answer_data = file_get_contents($answer_url);
-
-                        // Decode JSON data into PHP array
-                        $response_answer_data = json_decode($json_answer_data);
-
-                        // All user data exists in 'data' object
-                        $answer_data = $response_answer_data;
-                        // Traverse array and display user data
-                        foreach ($answer_data as $item_answer) {
-                            $user_url = 'http://localhost:8080/api/users/' . $item_answer->user_id;
-
-                            // Read JSON file
-                            $json_user_data = file_get_contents($user_url);
-
-                            // Decode JSON data into PHP array
-                            $response_user_data = json_decode($json_user_data);
-
-                            // All user data exists in 'data' object
-                            $user_data = $response_user_data;
-                            echo '<a>'. $item_answer->user_id . ' </a>';
-
-                            echo            '<div class="comment-card">';
-                            echo               '<strong>'. $user_data->nama .':</strong> '. $item_answer->answer;
-                            echo            '</div>';
-                        }
-                    }
-
-                        echo '</div>';
+                // Traverse array and display user data
+                foreach ($item->answers as $item_answer) {
+                    echo            '<div class="comment-card">';
+                    echo               '<strong>'. $item_answer->user_nama .':</strong> '. $item_answer->answer;
+                    echo            '</div>';
                 }
+
+                    echo '</div>';
+
                 echo '</div>';
             }
         ?>
