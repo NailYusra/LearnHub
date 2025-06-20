@@ -105,9 +105,9 @@ class AnswerForumController extends Controller
             }
         }
 
-        return response()->json([
-            'data' => $result,
-        ]);
+        return response()->json(
+            $result,
+        );
     }
 
     

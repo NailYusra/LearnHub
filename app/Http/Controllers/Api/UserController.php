@@ -26,16 +26,31 @@ class UserController extends Controller
     }
 
     public function getUserByID(string $user_id) {
-        $answers = $this->firestoreService->getDocuments();
+        $answers = $this->firestoreService->getDocumentById('users', $user_id);
         
+        /*
         $result = [];
         foreach ($answers as $key => $value) {
             if (isset($value['user_id']) && $value['user_id'] === $user_id) {
                 $result[$key] = $value;
             }
         }
+            */
+        $oldDataPlain = [];
+        foreach ($answers as $key => $value) {
+            $oldDataPlain[$key] = $value['stringValue'] ?? null;
+        }
 
-        return response()->json($result);
+        // Siapkan data yang akan diupdate (hanya jika field disediakan)
+        $updateData = $oldDataPlain;
+
+        foreach (['email', 'nama', 'profile_picture', 'bio', 'prodi_id', 'no_telp'] as $field) {
+            if (isset($validated[$field])) {
+                $updateData[$field] = $answers[$field];
+            }
+        }
+
+        return response()->json($updateData);
     }
 
     public function store(Request $request)
