@@ -406,80 +406,64 @@
                 $json_user_data = file_get_contents($user_url);
 
                 // Decode JSON data into PHP array
-                $response_user_data = json_decode($json_user_data, true);
+                $response_user_data = json_decode($json_user_data);
 
                 // All user data exists in 'data' object
-                $user_data = (array)$response_user_data;
-                echo        '<span>Oleh:' . implode(" ", array_values($user_data)[0]) . '</span>';
-                echo        '</div>';
+                $user_data = $response_user_data;
+                if (isset($user_data) && $user_data!=null) {
+                    echo        '<span>Oleh:' . $user_data->nama . '</span>';
+                    echo        '</div>';
 
-                echo       '<div class="comment-actions">';
-                echo            '<button class="comment-btn" onclick="toggleComments('. "comments" . $item->forum_id . ')">';
-                echo                '💬 Lihat Komentar';
-                echo            '</button>';
-                echo        '</div>';
+                    echo       '<div class="comment-actions">';
+                    echo            '<button class="comment-btn" onclick="toggleComments('. "comments" . $item->forum_id . ')">';
+                    echo                '💬 Lihat Komentar';
+                    echo            '</button>';
+                    echo        '</div>';
 
-                echo        '<div id="comments' . $item->forum_id . '" class="comment-list" style="display: none;">';
-                
-                $answer_url = 'http://localhost:8080/api/answerForum/' . $item->forum_id;
-
-                // Read JSON file
-                $json_answer_data = file_get_contents($answer_url);
-
-                // Decode JSON data into PHP array
-                $response_answer_data = json_decode($json_answer_data);
-
-                // All user data exists in 'data' object
-                $answer_data = $response_answer_data;
-
-                // Traverse array and display user data
-                foreach ($answer_data as $item_answer) {
-                    $user_url = 'http://localhost:8080/api/users/' . $item_answer->user_id;
-
-                    // Read JSON file
-                    $json_user_data = file_get_contents($user_url);
-
-                    // Decode JSON data into PHP array
-                    $response_user_data = json_decode($json_user_data, true);
-
-                    // All user data exists in 'data' object
-                    $user_data = (array)$response_user_data;
-
-                    echo            '<div class="comment-card">';
-                    echo               '<strong>'.implode(" ", array_values($user_data)[0]) .':</strong> '. $item_answer->answer;
-                    echo            '</div>';
                     
-                }
+                    echo        '<div id="comments' . $item->forum_id . '" class="comment-list" style="display: none;">';
+                    
+                    $answer_url = 'http://localhost:8080/api/answerForum/' . $item->forum_id;
+
+                    if (isset($item->forum_id) && $item->forum_id != null) {
+
+                        // Read JSON file
+                        $json_answer_data = file_get_contents($answer_url);
+
+                        // Decode JSON data into PHP array
+                        $response_answer_data = json_decode($json_answer_data);
+
+                        // All user data exists in 'data' object
+                        $answer_data = $response_answer_data;
+
+                        // Traverse array and display user data
+                        foreach ($answer_data as $item_answer) {
+                            $user_url = 'http://localhost:8080/api/users/' . $item_answer->user_id;
+
+                            // Read JSON file
+                            $json_user_data = file_get_contents($user_url);
+
+                            // Decode JSON data into PHP array
+                            $response_user_data = json_decode($json_user_data);
+
+                            // All user data exists in 'data' object
+                            $user_data = $response_user_data;
+
+                            echo            '<div class="comment-card">';
+                            echo               '<strong>'. $user_data->nama .':</strong> '. $item_answer->answer;
+                            echo            '</div>';
+                        }                      
+                    }
+  
+                        echo '</div>';
+                }   
             }
             echo        '</div>';
             echo   '</div>';
         ?>
 
-
-        <div class="forum-card">
-            <h5>Diskusi Algoritma</h5>
-            <p>Mari bahas algoritma sorting terbaik!</p>
-            <div class="author">
-                <i class="fas fa-user"></i>
-                <span>Oleh: John Doe</span>
-            </div>
-           <!-- Komentar Dummy -->
-            <div class="comment-actions">
-                <button class="comment-btn" onclick="toggleComments('comments1')">
-                    💬 Lihat Komentar
-                </button>
-            </div>
-
-
-            <div id="comments1" class="comment-list" style="display: none;">
-                <div class="comment-card">
-                    <strong>Alice:</strong> Aku suka QuickSort!
-                </div>
-                <div class="comment-card">
-                    <strong>Bob:</strong> MergeSort tetap juara.
-                </div>
-            </div>
-        </div>
+        
+        
 
         <!-- Forum lainnya bisa ditambahkan di sini -->
              <!-- Floating Action Button -->
