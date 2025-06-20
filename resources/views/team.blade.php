@@ -103,7 +103,7 @@
 
                     foreach ($tutor_data as $tutor) {
                         echo    '<div class="col-lg-3 col-md-6">';
-                        echo        '<a href="/lecturer/'. $tutor->user_id . '" class="text-decoration-none">';
+                        echo        '<a href="/lecturer/'. $tutor->tutor_id . '" class="text-decoration-none">';
                         echo        '<div class="team-item bg-light">';
                         echo            '<div class="overflow-hidden">';
                         echo                '<img class="img-fluid" src="/img/team-1.jpg" alt="">';

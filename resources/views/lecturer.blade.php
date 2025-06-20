@@ -62,6 +62,22 @@
     </nav>
     <!-- Navbar End -->
 
+    <?php
+        $lecturer_id = last(explode('/',url()->current()));
+
+        $api_url = 'http://localhost:8080/api/tutor/tutor_id/'. $lecturer_id;
+
+        // Read JSON file
+        $json_data = file_get_contents($api_url);
+
+        // Decode JSON data into PHP array
+        $response_data = json_decode($json_data);
+
+        // All user data exists in 'data' object
+        $tutor_data = $response_data;
+
+    ?>
+
     <!-- Profile Header Start -->
     <div class="profile-header">
         <div class="container">
@@ -70,24 +86,32 @@
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" alt="Dr. John Anderson" class="profile-image mb-3">
                 </div>
                 <div class="col-lg-8">
-                    <h1 class="display-5 fw-bold mb-2">Dr. John Anderson</h1>
-                    <h4 class="mb-3">Senior Web Development Instructor</h4>
+                    <?php
+                        echo '<h1 class="display-5 fw-bold mb-2">'. $tutor_data->nama .'</h1>';
+                        echo '<h4 class="mb-3">'. $tutor_data->prodi_nama .'</h4>';
+                    ?>
+
                     <div class="rating-stars mb-3">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
-                        <span class="ms-2 fs-6">4.9 (324 reviews)</span>
+                        <?php
+                            echo '<span class="ms-2 fs-6">'. $tutor_data->rating_mean .'</span>';
+                        ?>
                     </div>
-                    <p class="mb-4 fs-5">Passionate educator with 10+ years of experience in web development and software engineering. Dedicated to helping students master modern technologies.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                    </div>
+                    <?php
+                        echo '<p class="mb-4 fs-5">'. $tutor_data->bio .'</p>';
+                        echo '<div class="d-flex align-items-center mb-4">';
+                        echo  '<i class="fas fa-envelope"></i>';
+                        echo  '<span>'. $tutor_data->email .'</span>';
+                        echo '</div>';
+                        echo '<div class="d-flex align-items-center mb-4">';
+                        echo  '<i class="fas fa-phone"></i>';
+                        echo  '<span>+62 '. $tutor_data->no_telp.'</span>';
+                        echo '</div>';
+                    ?>
                 </div>
             </div>
         </div>
@@ -103,7 +127,9 @@
                         <div class="certificate-icon">
                             <i class="fas fa-medal"></i>
                         </div>
-                        <h3>15</h3>
+                        <?php
+                            echo '<h3>'. $tutor_data->num_course .'</h3>';
+                        ?>
                         <p class="mb-0">Courses Taught</p>
                     </div>
                 </div>
@@ -112,7 +138,9 @@
                         <div class="certificate-icon">
                             <i class="fas fa-medal"></i>
                         </div>
-                        <h3>2,847</h3>
+                        <?php
+                            echo '<h3>'. $tutor_data->num_customer .'</h3>';
+                        ?>
                         <p class="mb-0">Students</p>
                     </div>
                 </div>
@@ -121,17 +149,10 @@
                         <div class="certificate-icon">
                             <i class="fas fa-medal"></i>
                         </div>
-                        <h3>12</h3>
+                        <?php
+                            echo '<h3>'. $tutor_data->kumpulanCertificate .'</h3>';
+                        ?>
                         <p class="mb-0">Certificates</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="stats-card">
-                        <div class="certificate-icon">
-                            <i class="fas fa-medal"></i>
-                        </div>
-                        <h3>10+</h3>
-                        <p class="mb-0">Years Experience</p>
                     </div>
                 </div>
             </div>
@@ -139,52 +160,7 @@
     </div>
     <!-- Stats Section End -->
 
-    <!-- Main Content Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-5">
-                <!-- Left Column -->
-                <div class="col-lg-8">
-                    <!-- About Section -->
-                    <div class="about-section">
-                        <h6 class="section-title bg-white text-start text-primary pe-3">About</h6>
-                        <h2 class="mb-4">Professional Background</h2>
-                        <p class="mb-4">Dr. John Anderson is a seasoned web development instructor with over a decade of experience in both industry and academia. He holds a Ph.D. in Computer Science from MIT and has worked with leading tech companies including Google and Microsoft.</p>
-                        <p class="mb-4">His teaching philosophy centers around hands-on learning and real-world application. John believes that the best way to learn programming is by building actual projects that solve real problems.</p>
-                    </div>
-                </div>
 
-                <!-- Right Column -->
-                <div class="col-lg-4">
-                    <!-- Contact Info -->
-                    <div class="contact-info mb-4">
-                        <h4 class="mb-4">Contact Information</h4>
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>john.anderson@learnhub.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <span>+1 (555) 123-4567</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>San Francisco, CA</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-globe"></i>
-                            <span>www.johnanderson.dev</span>
-                        </div>
-                        <div class="mt-4">
-                            <button class="btn btn-primary w-100 mb-2">Send Message</button>
-                            <button class="btn btn-outline-primary w-100">Schedule Jadwal</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Main Content End -->
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer mt-5 wow fadeIn" data-wow-delay="0.1s">
