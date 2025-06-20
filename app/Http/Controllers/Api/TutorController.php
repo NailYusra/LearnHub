@@ -24,6 +24,32 @@ class TutorController extends Controller
         return response()->json($tutor);
     }
 
+    public function getTutorByCourseID(string $course_id) {
+        $tutorCourseService = new FirestoreService('tutorCourse', app(FirebaseTokenService::class));
+        $tutorCourses = $tutorCourseService->getAllDocuments();
+
+        // ambil courses dengan id yang sama dengan $course_id, lalu masukkan ke $result
+        $result = [];
+        foreach ($tutorCourses as $tutorCourse) {
+            if (isset($tutorCourse['course_id']) && $tutorCourse['course_id'] === $course_id) {
+                $result[] = $tutorCourse;
+            }
+        }
+        
+        $tutors = $this->tutorServive->getAllDocuments();
+
+        $data = [];
+        foreach ($result as $tutorCourse) {
+            foreach ($tutors as $item) {
+                if (isset($item['tutor_id']) && $item['tutor_id'] === $tutorCourse['tutor_id']) {
+                    $data[] = $item;
+                }
+            }
+        }
+
+        return response()->json($data);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
