@@ -399,11 +399,9 @@
                 echo        '<p>' . $item->question .'</p>';
                 echo        '<div class="author">';
                 echo            '<i class="fas fa-user"></i>';
-                if (isset($user_data) && $user_data!=null) {
-                    echo        '<span>Oleh:' . $item->user . '</span>';
-                }else {
-                    echo        '<span>Oleh: rusak </span>';
-                }
+                
+                echo        '<span>Oleh:' . $item->user . '</span>';
+                
                 echo        '</div>';
 
                 echo       '<div class="comment-actions">';
@@ -420,9 +418,12 @@
                     echo               '<strong>'. $item_answer->user_nama .':</strong> '. $item_answer->answer;
                     echo            '</div>';
                 }
-
-                    echo '</div>';
-
+                if (($item->answers) == null) {
+                    echo            '<div class="comment-card">';
+                    echo               '<strong> tidak ada jawaban </strong> ';
+                    echo            '</div>';
+                }
+                echo '</div>';
                 echo '</div>';
             }
         ?>

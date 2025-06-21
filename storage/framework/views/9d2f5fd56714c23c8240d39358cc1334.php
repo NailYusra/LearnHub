@@ -264,12 +264,12 @@
             .forum-header h1 {
                 font-size: 2rem;
             }
-            
+
             .forum-card {
                 padding: 1rem;
                 margin-bottom: 0.75rem;
             }
-            
+
             .fab {
                 bottom: 100px; /* Above bottom nav */
                 right: 1rem;
@@ -340,7 +340,7 @@
 
     </style>
 </head>
-<body> 
+<body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="<?php echo e(route('home')); ?>" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
@@ -381,7 +381,7 @@
         </div>
 
         <?php
-            $api_url = 'http://localhost:8080/api/forum/';
+            $api_url = 'http://localhost:8080/api/forum/full';
 
             // Read JSON file
             $json_data = file_get_contents($api_url);
@@ -399,72 +399,38 @@
                 echo        '<p>' . $item->question .'</p>';
                 echo        '<div class="author">';
                 echo            '<i class="fas fa-user"></i>';
+                
+                    echo        '<span>Oleh:' . $item->user . '</span>';
+                
+                echo        '</div>';
 
-                $user_url = 'http://localhost:8080/api/users/' . $item->user_id;
+                echo       '<div class="comment-actions">';
+                echo            '<button class="comment-btn" onclick="toggleComments(\'comments'.strtolower($item->forum_id).'\')">';
+                echo                '💬 Lihat Komentar';
+                echo            '</button>';
+                echo        '</div>';
 
-                // Read JSON file
-                $json_user_data = file_get_contents($user_url);
+                echo        '<div id="comments' . strtolower($item->forum_id) . '" class="comment-list" style="display: none;">';
 
-                // Decode JSON data into PHP array
-                $response_user_data = json_decode($json_user_data);
-
-                // All user data exists in 'data' object
-                $user_data = $response_user_data;
-                if (isset($user_data) && $user_data!=null) {
-                    echo        '<span>Oleh:' . $user_data->nama . '</span>';
-                }else {
-                    echo        '<span>Oleh: rusak </span>';
+                // Traverse array and display user data
+                foreach ($item->answers as $item_answer) {
+                    echo            '<div class="comment-card">';
+                    echo               '<strong>'. $item_answer->user_nama .':</strong> '. $item_answer->answer;
+                    echo            '</div>';
                 }
-                    echo        '</div>';
-                if (isset($user_data) && $user_data!=null) {
-                    echo       '<div class="comment-actions">';
-                    echo            '<button class="comment-btn" onclick="toggleComments("comments'.$item->forum_id.'")">';
-                    echo                '💬 Lihat Komentar';
-                    echo            '</button>';
-                    echo        '</div>';
-                    
-                    echo        '<div id="comments' . $item->forum_id . '" class="comment-list" style="display: none;">';
-                    
-                    $answer_url = 'http://localhost:8080/api/answerForum/' . $item->forum_id;
+                if (($item->answers) == null) {
+                    echo            '<div class="comment-card">';
+                    echo               '<strong> tidak ada jawaban </strong> ';
+                    echo            '</div>';
+                }
+                    echo '</div>';
 
-                    if (isset($item->forum_id) && $item->forum_id != null) {
-
-                        // Read JSON file
-                        $json_answer_data = file_get_contents($answer_url);
-
-                        // Decode JSON data into PHP array
-                        $response_answer_data = json_decode($json_answer_data);
-
-                        // All user data exists in 'data' object
-                        $answer_data = $response_answer_data;
-                        // Traverse array and display user data
-                        foreach ($answer_data as $item_answer) {
-                            $user_url = 'http://localhost:8080/api/users/' . $item_answer->user_id;
-
-                            // Read JSON file
-                            $json_user_data = file_get_contents($user_url);
-
-                            // Decode JSON data into PHP array
-                            $response_user_data = json_decode($json_user_data);
-
-                            // All user data exists in 'data' object
-                            $user_data = $response_user_data;
-                            echo '<a>'. $item_answer->user_id . ' </a>';
-
-                            echo            '<div class="comment-card">';
-                            echo               '<strong>'. $user_data->nama .':</strong> '. $item_answer->answer;
-                            echo            '</div>';
-                        }
-                    }
-  
-                        echo '</div>';
-                }   
                 echo '</div>';
             }
         ?>
         </div>
 
-        <!-- 
+        <!--
             <div class="forum-card">
                 <h5>Diskusi Algoritma</h5>
                 <p>Mari bahas algoritma sorting terbaik!</p>
@@ -472,7 +438,7 @@
                     <i class="fas fa-user"></i>
                     <span>Oleh: John Doe</span>
                 </div>
-                 
+
                 <div class="comment-actions">
                     <button class="comment-btn" onclick="toggleComments('comments1')">
                         💬 Lihat Komentar
@@ -490,12 +456,12 @@
                 </div>
             </div>
         -->
-        
+
 
         <!-- Forum lainnya bisa ditambahkan di sini -->
              <!-- Floating Action Button -->
      <!-- Tombol FAB untuk menampilkan form tambah forum -->
-    
+
     </div>
 </div>
 
@@ -529,7 +495,7 @@
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Newsletter</h4>
                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                   
+
                 </div>
             </div>
         </div> -->
@@ -583,7 +549,7 @@
             fab.addEventListener('click', function(e) {
                 e.preventDefault();
                 // Add new forum logic here
-             
+
             });
 
             // Bottom nav click handlers
@@ -591,13 +557,13 @@
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
+
                     // Remove active class from all links
                     navLinks.forEach(l => l.classList.remove('active'));
-                    
+
                     // Add active class to clicked link
                     this.classList.add('active');
-                    
+
                     // Navigation logic would go here
                     const section = this.querySelector('span').textContent;
                     console.log('Navigating to:', section);
@@ -629,4 +595,4 @@
 </body>
 
 </html>
-    <?php /**PATH C:\xampp\htdocs\fe-learnhub\LearnHub\resources\views/forum.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\fe-learnhub\LearnHub\resources\views/forum.blade.php ENDPATH**/ ?>
