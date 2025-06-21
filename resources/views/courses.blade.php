@@ -68,198 +68,83 @@
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Categories</h6>
                 <h1 class="mb-5">Courses Categories</h1>
-            
-                
                 <div class="col-lg-5 col-md-12 mb-3">
-        <div class="category-filter text-center">
-                <button class="btn btn-outline-primary" data-category="all">All Courses</button>
-                <button class="btn btn-outline-primary" data-category="FIF">FIF</button>
-                <button class="btn btn-outline-primary" data-category="FRI">FRI</button>
-                <button class="btn btn-outline-primary" data-category="FIK">FIK</button>
-                <button class="btn btn-outline-primary" data-category="FTE">FTE</button>
-            </div>
-        </div>
-            
-            <div class="row g-4">
-                <?php
-                    $api_url = 'http://localhost:8080/api/course/getAll';
-
-                    // Read JSON file
-                    $json_data = file_get_contents($api_url);
-
-                    // Decode JSON data into PHP array
-                    $response_data = json_decode($json_data);
-
-                    // All user data exists in 'data' object
-                    $course_data = $response_data;
-
-                    // Traverse array and display user data
-                    foreach ($course_data as $course) {
-                        echo "<a href='/team/". $course->id . "' class='col-lg-3 col-md-6 category-item' data-category='" . $course->nama_fakultas . "'>";
-                        echo    '<div class="category-card">';
-                        echo    '<div class="category-header">';
-                        echo            '<h5 class="category-title">' . $course->nama . '</h5>';
-                        echo        '</div>';
-                        echo    '<p class="category-faculty">'. $course->nama_fakultas .'</p>';
-                        echo    '<p class="category-faculty">'. $course->nama_prodi .'</p>';
-                        echo    '</div>';
-                        echo'</a>';
-                    }
-                ?>
+                    <div class="category-filter text-center">
+                        <button class="btn btn-outline-primary filter-btn" data-category="all">All Courses</button>
+                        <button class="btn btn-outline-primary filter-btn" data-category="FIF">FIF</button>
+                        <button class="btn btn-outline-primary filter-btn" data-category="FRI">FRI</button>
+                        <button class="btn btn-outline-primary filter-btn" data-category="FIK">FIK</button>
+                        <button class="btn btn-outline-primary filter-btn" data-category="FTE">FTE</button>
+                    </div>
+                </div>
+                <div class="row g-4" id="course-list">
+                    <?php
+                        $api_url = 'http://localhost:8080/api/course/getAll';
+                        $json_data = file_get_contents($api_url);
+                        $response_data = json_decode($json_data);
+                        $course_data = $response_data;
+                        foreach ($course_data as $course) {
+                            echo "<a href='/team/". $course->id . "' class='col-lg-3 col-md-6 category-item' data-category='" . $course->nama_fakultas . "'>";
+                            echo    '<div class="category-card">';
+                            echo    '<div class="category-header">';
+                            echo            '<h5 class="category-title">' . $course->nama . '</h5>';
+                            echo        '</div>';
+                            echo    '<p class="category-faculty">'. $course->nama_fakultas .'</p>';
+                            echo    '<p class="category-faculty">'. $course->nama_prodi .'</p>';
+                            echo    '</div>';
+                            echo'</a>';
+                        }
+                    ?>
+                </div>
             </div>
         </div>
     </div>
 
-        </div>
-    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const buttons = document.querySelectorAll(".filter-btn");
+            const items = document.querySelectorAll(".category-item");
+
+            buttons.forEach(button => {
+                button.addEventListener("click", () => {
+                    const category = button.getAttribute("data-category");
+                    items.forEach(item => {
+                        if (category === "all" || item.getAttribute("data-category") === category) {
+                            item.style.display = "block";
+                        } else {
+                            item.style.display = "none";
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <style>
+        :root {
+            --primary: #B6252A;
+            --light: #faefed;
+            --dark: #333333;
+        }
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid #f0f0f0;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .category-title { font-size: 18px; font-weight: 700; color: var(--dark); }
+        .category-faculty { color: #666; font-size: 14px; font-weight: 500; margin-bottom: 15px; }
+        .category-filter .btn { margin: 5px; border-radius: 25px; padding: 10px 25px; font-weight: 600; }
+    </style>
     <!-- Categories Start -->
-
-  
-
-    <!-- Courses Start -->
-    <!-- <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
-                <h1 class="mb-5">Popular Courses</h1>
-            </div>
-            <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="img/course-1.jpg" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">$149.00</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small>
-                            </div>
-                            <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="img/course-2.jpg" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">$149.00</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small>
-                            </div>
-                            <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="img/course-3.jpg" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">$149.00</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small>
-                            </div>
-                            <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Courses End -->
-
-
-    <!-- Testimonial Start -->
-    <!-- <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="container">
-            <div class="text-center">
-                <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
-                <h1 class="mb-5">Our Students Say!</h1>
-            </div>
-            <div class="owl-carousel testimonial-carousel position-relative">
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="img/testimonial-1.jpg" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="img/testimonial-2.jpg" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="img/testimonial-3.jpg" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="img/testimonial-4.jpg" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Testimonial End -->
         
-
     <!-- Spacer -->
     <div style="height: 3.5vh;"></div>
 
